@@ -1,0 +1,103 @@
+fprintf('----- Welcome to the mip installation wizard! -----\n\n');
+fprintf(['This script will:\n' ...
+    '- Download the latest version of mip.\n' ...
+    '- Install it to a specified directory.\n' ...
+    '- Save mip to your MATLAB path for future sessions.\n']);
+fprintf('\nPress <enter> to continue, <ctrl+c> to abort.\n');
+pause
+
+if ispc
+    % Get the user home directory
+    mip_install___homedir = char(java.lang.System.getProperty('user.home'));
+else
+    mip_install___homedir = '~';
+end
+
+% Set the default mip location (~/.mip)
+mip_install___mipdir = fullfile(mip_install___homedir, '.mip');
+
+% Prompt the user for custom mip location
+mip_install___prompt = sprintf('\nEnter install location for mip (%s): ', mip_install___mipdir);
+mip_install___input = input(mip_install___prompt, 's');
+if ~isempty(mip_install___input)
+    mip_install___mipdir = mip_install___input;
+end
+
+% If <MIPDIR>/packages already exists, then abort
+if isfolder(fullfile(mip_install___mipdir, 'packages'))
+    clear mip_install___*
+    error('The mip directory already exists. Installation aborted.');
+end
+
+% Find all versions of mip available in the package index
+mip_install___package_index = webread('https://mip-org.github.io/mip-core/index.json');
+mip_install___versions = {};
+for mip_install___i = 1:length(mip_install___package_index.packages)
+    if strcmpi(mip_install___package_index.packages{mip_install___i}.name, 'mip')
+        mip_install___versions = [
+            mip_install___versions ;
+            mip_install___package_index.packages(mip_install___i)
+        ]; %#ok<AGROW>
+    end
+end
+if isempty(mip_install___versions)
+    clear mip_install___*
+    error('Failed to download mip. Installation aborted.');
+end
+
+% Select the latest version of mip
+mip_install___latest = mip_install___versions{1};
+for mip_install___i = 2:length(mip_install___versions)
+    mip_install___v1 = str2double(strsplit(mip_install___versions{mip_install___i}.version, '.'));
+    mip_install___v2 = str2double(strsplit(mip_install___latest.version, '.'));
+    mip_install___vmaxlen = max(length(mip_install___v1), length(mip_install___v2));
+    mip_install___v1(end+1:mip_install___vmaxlen) = 0;
+    mip_install___v2(end+1:mip_install___vmaxlen) = 0;
+    mip_install___compare = 0;
+    for mip_install___j = 1:mip_install___vmaxlen
+        if mip_install___v1(mip_install___j) > mip_install___v2(mip_install___j)
+            mip_install___compare = 1;
+            break
+        elseif mip_install___v1(mip_install___j) < mip_install___v2(mip_install___j)
+            mip_install___compare = -1;
+            break
+        end
+    end
+    if mip_install___compare > 0
+        mip_install___latest = mip_install___versions{mip_install___i};
+    end
+end
+
+% Download the .mhl for the latest version of mip from the package index
+mip_install___mhl = mip_install___latest.mhl_url;
+if isempty(mip_install___mhl)
+    clear mip_install___*
+    error('Failed to download mip. Installation aborted.');
+end
+
+fprintf('Installing mip version %s to ''%s''\n', mip_install___latest.version, mip_install___mipdir);
+
+% Unzip the .mhl to <MIPDIR>/packages/mip
+unzip(mip_install___mhl, fullfile(mip_install___mipdir, 'packages', 'mip'));
+
+% Cache the user's current path
+mip_install___current_path = path;
+
+% Change the path to match what it would be if MATLAB had just started up
+path(pathdef);
+
+% Add <MIPDIR>/packages/mip/mip to the path and save it for future MATLAB
+% sessions
+addpath(fullfile(mip_install___mipdir, 'packages', 'mip', 'mip'))
+savepath;
+
+% Restore the path to what it was before and add <MIPDIR>/packages/mip/mip
+% to the path for the current MATLAB session
+path(mip_install___current_path);
+addpath(fullfile(mip_install___mipdir, 'packages', 'mip', 'mip'));
+
+fprintf('Installation successful!\n');
+fprintf('Type ''mip help'' to get started.\n');
+
+% Clean up the workspace
+clear mip_install___*

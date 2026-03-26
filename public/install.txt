@@ -23,10 +23,12 @@ if ~isempty(mip_install___input)
     mip_install___mipdir = mip_install___input;
 end
 
-% If <MIPDIR>/packages already exists, then abort
-if isfolder(fullfile(mip_install___mipdir, 'packages'))
+% If the mip command is already available on the path, inform user and abort
+if exist('mip', 'file') || isfolder(fullfile(mip_install___mipdir, 'packages'))
+    fprintf('\nmip is already installed.\n');
+    fprintf('To update mip, run:\n\n  mip update mip\n\n');
     clear mip_install___*
-    error('The mip directory already exists. Installation aborted.');
+    return
 end
 
 % Find all versions of mip available in the package index

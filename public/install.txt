@@ -81,7 +81,7 @@ fprintf('Installing mip version %s to ''%s''\n', mip_install___latest.version, m
 
 % Unzip the .mhl to <MIPDIR>/packages/mip-org/core/mip/mip
 mip_install___mipsourcedir = fullfile(mip_install___mipdir, 'packages', 'mip-org', 'core', 'mip', 'mip');
-unzip(mip_install___mhl, mip_install___mipsourcedir));
+unzip(mip_install___mhl, mip_install___mipsourcedir);
 
 % Cache the user's current path
 mip_install___current_path = path;

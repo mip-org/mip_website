@@ -47,27 +47,55 @@ if isempty(mip_install___versions)
     error('Failed to download mip. Installation aborted.');
 end
 
-% Select the latest version of mip
-mip_install___latest = mip_install___versions{1};
-for mip_install___i = 2:length(mip_install___versions)
-    mip_install___v1 = str2double(strsplit(mip_install___versions{mip_install___i}.version, '.'));
-    mip_install___v2 = str2double(strsplit(mip_install___latest.version, '.'));
-    mip_install___vmaxlen = max(length(mip_install___v1), length(mip_install___v2));
-    mip_install___v1(end+1:mip_install___vmaxlen) = 0;
-    mip_install___v2(end+1:mip_install___vmaxlen) = 0;
-    mip_install___compare = 0;
-    for mip_install___j = 1:mip_install___vmaxlen
-        if mip_install___v1(mip_install___j) > mip_install___v2(mip_install___j)
-            mip_install___compare = 1;
-            break
-        elseif mip_install___v1(mip_install___j) < mip_install___v2(mip_install___j)
-            mip_install___compare = -1;
+% Select the best version of mip
+% Priority: highest numeric version > "main" > "unspecified" > alphabetically first
+mip_install___latest = [];
+mip_install___latest_numeric = '';
+for mip_install___i = 1:length(mip_install___versions)
+    mip_install___v = mip_install___versions{mip_install___i}.version;
+    mip_install___parts = str2double(strsplit(mip_install___v, '.'));
+    if ~any(isnan(mip_install___parts))
+        % Numeric version - compare to find highest
+        if isempty(mip_install___latest_numeric)
+            mip_install___latest = mip_install___versions{mip_install___i};
+            mip_install___latest_numeric = mip_install___v;
+        else
+            mip_install___v1 = mip_install___parts;
+            mip_install___v2 = str2double(strsplit(mip_install___latest_numeric, '.'));
+            mip_install___vmaxlen = max(length(mip_install___v1), length(mip_install___v2));
+            mip_install___v1(end+1:mip_install___vmaxlen) = 0;
+            mip_install___v2(end+1:mip_install___vmaxlen) = 0;
+            for mip_install___j = 1:mip_install___vmaxlen
+                if mip_install___v1(mip_install___j) > mip_install___v2(mip_install___j)
+                    mip_install___latest = mip_install___versions{mip_install___i};
+                    mip_install___latest_numeric = mip_install___v;
+                    break
+                elseif mip_install___v1(mip_install___j) < mip_install___v2(mip_install___j)
+                    break
+                end
+            end
+        end
+    end
+end
+% If no numeric version found, fall back to "main", then "unspecified", then first
+if isempty(mip_install___latest)
+    for mip_install___i = 1:length(mip_install___versions)
+        if strcmp(mip_install___versions{mip_install___i}.version, 'main')
+            mip_install___latest = mip_install___versions{mip_install___i};
             break
         end
     end
-    if mip_install___compare > 0
-        mip_install___latest = mip_install___versions{mip_install___i};
+end
+if isempty(mip_install___latest)
+    for mip_install___i = 1:length(mip_install___versions)
+        if strcmp(mip_install___versions{mip_install___i}.version, 'unspecified')
+            mip_install___latest = mip_install___versions{mip_install___i};
+            break
+        end
     end
+end
+if isempty(mip_install___latest)
+    mip_install___latest = mip_install___versions{1};
 end
 
 % Download the .mhl for the latest version of mip from the package index

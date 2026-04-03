@@ -49,16 +49,16 @@ To unload:
 
 ```matlab
 mip unload chebfun
-mip unload --all          % unload all non-sticky packages
-mip unload --all --force  % unload everything, including sticky
+mip unload --all          % Unload all non-sticky packages
+mip unload --all --force  % Unload everything, including sticky
 ```
 
 ## Listing and searching
 
 ```matlab
-mip avail                 % list all available packages
-mip list                  % list installed and loaded packages
-mip info chebfun          % show details about a package
+mip avail                 % List all available packages
+mip list                  % List installed and loaded packages
+mip info chebfun          % Show details about a package
 ```
 
 ## Using other channels
@@ -87,8 +87,8 @@ mip install chebfun@1.0.0
 ## Other commands
 
 ```matlab
-mip arch                  % show your system's MEX architecture
-mip version               % show MIP version
-mip help                  % show help
-mip help install          % show help for a specific command
+mip arch                  % Show your system's MEX architecture
+mip version               % Show MIP version
+mip help                  % Show help
+mip help install          % Show help for a specific command
 ```

@@ -35,7 +35,7 @@ end
 mip_install___package_index = webread('https://mip-org.github.io/mip-core/index.json');
 mip_install___versions = {};
 for mip_install___i = 1:length(mip_install___package_index.packages)
-    if strcmpi(mip_install___package_index.packages{mip_install___i}.name, 'mip')
+    if strcmpi(mip_install___package_index.packages(mip_install___i).name, 'mip')
         mip_install___versions = [
             mip_install___versions ;
             mip_install___package_index.packages(mip_install___i)

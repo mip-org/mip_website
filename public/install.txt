@@ -24,7 +24,7 @@ if ~isempty(mip_install___input)
 end
 
 % If the mip command is already available on the path, inform user and abort
-if exist('mip', 'file') || isfolder(fullfile(mip_install___mipdir, 'packages'))
+if isfile('mip') || isfolder(fullfile(mip_install___mipdir, 'packages'))
     fprintf('\nmip is already installed.\n');
     fprintf('To update mip, run:\n\n  mip update mip\n\n');
     clear mip_install___*
@@ -35,10 +35,10 @@ end
 mip_install___package_index = webread('https://mip-org.github.io/mip-core/index.json');
 mip_install___versions = {};
 for mip_install___i = 1:length(mip_install___package_index.packages)
-    if strcmpi(mip_install___package_index.packages(mip_install___i).name, 'mip')
+    if strcmpi(mip_install___package_index.packages{mip_install___i}.name, 'mip')
         mip_install___versions = [
             mip_install___versions ;
-            mip_install___package_index.packages(mip_install___i)
+            mip_install___package_index.packages{mip_install___i}
         ]; %#ok<AGROW>
     end
 end

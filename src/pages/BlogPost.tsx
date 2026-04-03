@@ -48,7 +48,7 @@ export default function BlogPost() {
               "& ul, & ol": { pl: 3, mb: 2 },
               "& li": { ...theme.typography.body1, mb: 0.5 },
               "& a": { color: theme.palette.primary.main },
-              "& code:not(.mip-code code)": {
+              "& code:not(.mip-code):not(.mip-code code)": {
                 fontFamily: '"Meslo LG", monospace',
                 fontSize: "0.875rem",
                 backgroundColor: isDark

@@ -135,7 +135,6 @@ const commands = [
   { cmd: "mip unload --all --force", desc: "Unload all packages (including sticky ones)" },
   { cmd: "mip list", desc: "List which packages are installed and/or loaded" },
   { cmd: "mip arch", desc: "Display the MEX architecture for the current system" },
-  { cmd: "mip find-name-collisions", desc: "Find symbol name collisions across installed packages" },
   { cmd: "mip version", desc: "Display the current version of mip" },
   { cmd: "mip help [command]", desc: "Show the help text for a command" }
 ];

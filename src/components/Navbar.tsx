@@ -27,6 +27,8 @@ export default function Navbar() {
   const navItems = [
     { label: "Home", path: "/" },
     { label: "Packages", path: "/packages" },
+    { label: "Docs", path: "/docs" },
+    { label: "Blog", path: "/blog" },
   ];
 
   return (
@@ -59,23 +61,28 @@ export default function Navbar() {
         </Typography>
 
         <Box sx={{ flexGrow: 1, display: { xs: "none", sm: "flex" }, gap: 1 }}>
-          {navItems.map((item) => (
-            <Button
-              key={item.path}
-              component={Link}
-              to={item.path}
-              sx={{
-                color:
-                  location.pathname === item.path
+          {navItems.map((item) => {
+            const isActive =
+              item.path === "/"
+                ? location.pathname === "/"
+                : location.pathname.startsWith(item.path);
+            return (
+              <Button
+                key={item.path}
+                component={Link}
+                to={item.path}
+                sx={{
+                  color: isActive
                     ? theme.palette.primary.main
                     : theme.palette.text.secondary,
-                fontSize: "1rem",
-                fontWeight: location.pathname === item.path ? 600 : 400,
-              }}
-            >
-              {item.label}
-            </Button>
-          ))}
+                  fontSize: "1rem",
+                  fontWeight: isActive ? 600 : 400,
+                }}
+              >
+                {item.label}
+              </Button>
+            );
+          })}
         </Box>
 
         <Box sx={{ flexGrow: 1, display: { xs: "flex", sm: "none" } }} />

@@ -1,7 +1,15 @@
 import hljsCore from "highlight.js/lib/core";
 import matlab from "highlight.js/lib/languages/matlab";
+import yaml from "highlight.js/lib/languages/yaml";
+import bash from "highlight.js/lib/languages/bash";
+import c from "highlight.js/lib/languages/c";
+import javascript from "highlight.js/lib/languages/javascript";
 
 hljsCore.registerLanguage("matlab", matlab);
+hljsCore.registerLanguage("yaml", yaml);
+hljsCore.registerLanguage("bash", bash);
+hljsCore.registerLanguage("c", c);
+hljsCore.registerLanguage("javascript", javascript);
 
 export const hljs = hljsCore;
 

@@ -55,6 +55,23 @@ export default function CodeBlock({
           ...(inline && { display: "inline-flex", alignItems: "center", gap: 1 }),
         }}
       >
+        {!inline && (
+          <Box
+            component="span"
+            sx={{
+              position: "absolute",
+              top: 12,
+              right: 40,
+              fontSize: "0.7rem",
+              color: theme.palette.text.secondary,
+              textTransform: "uppercase",
+              letterSpacing: "0.05em",
+              userSelect: "none",
+            }}
+          >
+            {language}
+          </Box>
+        )}
         <pre style={{ margin: 0, whiteSpace: "pre-wrap", fontFamily: "inherit" }}>
           <code style={{ fontFamily: "inherit" }} dangerouslySetInnerHTML={{ __html: highlighted }} />
         </pre>

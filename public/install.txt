@@ -6,15 +6,8 @@ fprintf(['This script will:\n' ...
 fprintf('\nPress <enter> to continue, <ctrl+c> to abort.\n');
 pause
 
-if ispc
-    % Get the user home directory
-    mip_install___homedir = char(java.lang.System.getProperty('user.home'));
-else
-    mip_install___homedir = '~';
-end
-
-% Set the default mip location (~/.mip)
-mip_install___mipdir = fullfile(mip_install___homedir, '.mip');
+% Set the default mip location (<userpath>/mip)
+mip_install___mipdir = fullfile(userpath, 'mip');
 
 % Prompt the user for custom mip location
 mip_install___prompt = sprintf('\nEnter install location for mip (%s): ', mip_install___mipdir);

@@ -39,7 +39,12 @@ if isfolder(mip_install___mipdir)
 end
 
 % Find all versions of mip available in the package index
-mip_install___package_index = webread('https://mip-org.github.io/mip-core/index.json');
+try
+    mip_install___package_index = webread('https://mip-org.github.io/mip-core/index.json');
+catch
+    clear mip_install___*
+    error('Failed to download mip. Installation aborted.');
+end
 mip_install___versions = {};
 for mip_install___i = 1:length(mip_install___package_index.packages)
     if strcmpi(mip_install___package_index.packages{mip_install___i}.name, 'mip')
@@ -116,19 +121,34 @@ fprintf('Installing mip version %s to ''%s''\n', mip_install___latest.version, m
 
 % Unzip the .mhl to <MIPDIR>/packages/mip-org/core/mip
 mip_install___mippackagedir = fullfile(mip_install___mipdir, 'packages', 'mip-org', 'core', 'mip');
-unzip(mip_install___mhl, mip_install___mippackagedir);
+try
+    unzip(mip_install___mhl, mip_install___mippackagedir);
+catch
+    if isfolder(mip_install___mipdir)
+        rmdir(mip_install___mipdir, 's');
+    end
+    clear mip_install___*
+    error('Failed to download mip. Installation aborted.');
+end
 
 % Cache the user's current path
 mip_install___current_path = path;
 
-% Change the path to match what it would be if MATLAB had just started up
-path(pathdef);
+try
+    % Change the path to match what it would be if MATLAB had just started up
+    path(pathdef);
 
-% Add <MIPDIR>/packages/mip-org/core/mip/mip to the path and save it for future MATLAB
-% sessions
-mip_install___mipsourcedir = fullfile(mip_install___mippackagedir, 'mip');
-addpath(mip_install___mipsourcedir);
-savepath();
+    % Add <MIPDIR>/packages/mip-org/core/mip/mip to the path and save it for future MATLAB
+    % sessions
+    mip_install___mipsourcedir = fullfile(mip_install___mippackagedir, 'mip');
+    addpath(mip_install___mipsourcedir);
+    savepath();
+catch
+    % Restore the user's path if anything goes wrong
+    path(mip_install___current_path);
+    clear mip_install___*
+    error('Failed to save mip to the MATLAB path. Installation aborted.');
+end
 
 % Restore the path to what it was before and add <MIPDIR>/packages/mip-org/core/mip/mip
 % to the path for the current MATLAB session

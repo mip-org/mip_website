@@ -1,3 +1,12 @@
+% If the mip command exists, inform the user and abort.
+% Note: the syntax '/mip' limits the search to non-builtin functions named mip.
+if ~isempty(which('/mip'))
+    fprintf('mip is already installed.\n');
+    fprintf('To update mip, run ''mip update mip''.\n');
+    fprintf('To uninstall mip, run ''mip uninstall mip''.\n');
+    return
+end
+
 fprintf('----- Welcome to the mip installation wizard! -----\n\n');
 fprintf(['This script will:\n' ...
     '- Download the latest version of mip.\n' ...
@@ -22,10 +31,9 @@ else
     mip_install___mipdirpretty = replace(mip_install___mipdir, getenv('HOME'), '~');
 end
 
-% If the mip command is already available on the path, inform user and abort
-if isfile('mip') || isfolder(fullfile(mip_install___mipdir, 'packages'))
-    fprintf('mip is already installed.\n');
-    fprintf('To update mip, run:\n\n  mip update mip\n\n');
+% If the directory already exists, inform the user and abort.
+if isfolder(mip_install___mipdir)
+    fprintf('Directory ''%s'' already exists. Installation aborted.\n', mip_install___mipdirpretty);
     clear mip_install___*
     return
 end
@@ -119,8 +127,8 @@ path(pathdef);
 % Add <MIPDIR>/packages/mip-org/core/mip/mip to the path and save it for future MATLAB
 % sessions
 mip_install___mipsourcedir = fullfile(mip_install___mippackagedir, 'mip');
-addpath(mip_install___mipsourcedir)
-savepath;
+addpath(mip_install___mipsourcedir);
+savepath();
 
 % Restore the path to what it was before and add <MIPDIR>/packages/mip-org/core/mip/mip
 % to the path for the current MATLAB session

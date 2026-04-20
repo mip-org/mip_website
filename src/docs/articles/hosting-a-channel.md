@@ -22,7 +22,7 @@ Each package needs a `recipe.yaml` that tells the channel where to get the sourc
 ### Directory structure
 
 ```
-packages/<name>/releases/<version>/
+packages/<name>/<version>/
 ├── recipe.yaml       # Required: where to get the source
 ├── mip.yaml          # Optional: overrides mip.yaml from source repo
 └── compile.m         # Optional: channel-provided compilation script
@@ -47,7 +47,7 @@ For an example, see [hello_mip](https://github.com/mip-org/hello_mip), which has
 If the source repo doesn't include a `mip.yaml`, or if you want to override it, you can provide one in the channel alongside the `recipe.yaml`:
 
 ```
-packages/my_package/releases/main/
+packages/my_package/main/
 ├── recipe.yaml
 └── mip.yaml          # channel-provided metadata
 ```
@@ -78,7 +78,7 @@ For packages that need compilation (MEX or WASM), you can include compile script
 
 ## Versioning
 
-The version is determined by the directory name under `releases/`. You can use:
+The version is determined by the directory name under the package directory. You can use:
 
 - `main`: always builds from the latest commit on the main branch
 - `1.0.0`: a fixed version, typically pointing to a tag or commit
@@ -86,7 +86,7 @@ The version is determined by the directory name under `releases/`. You can use:
 You can have multiple versions side by side:
 
 ```
-packages/my_package/releases/
+packages/my_package/
 ├── main/
 │   └── recipe.yaml
 └── 1.0.0/

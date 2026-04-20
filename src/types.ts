@@ -2,7 +2,6 @@ export interface Package {
   name: string;
   description: string;
   version: string;
-  release_number?: number;
   dependencies: string[];
   homepage: string;
   repository: string;

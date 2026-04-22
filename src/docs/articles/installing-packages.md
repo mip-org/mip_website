@@ -104,6 +104,8 @@ mip install mip-org/core/chebfun@main
 
 This is a request, not a pin — MIP installs that version if it exists in the channel, and fails with `mip:versionNotFound` otherwise. There is no lock file and no version-constraint grammar.
 
+If you install a non-numeric version like `main`, `mip update` will keep you on that track rather than silently switching you to a numeric release that later appears alongside it. To switch tracks, run `mip install` again with an explicit `@version`.
+
 ## Installing from a zip URL
 
 You can install any MATLAB code that's published as a zip archive, even if it's not in a MIP channel:
@@ -112,7 +114,7 @@ You can install any MATLAB code that's published as a zip archive, even if it's 
 mip install my_package --url https://github.com/someone/repo/archive/refs/heads/main.zip
 ```
 
-MIP downloads and extracts the archive, generates a `mip.yaml` via `mip init` if one isn't included, and installs it as a local package. The positional name (`my_package` above) becomes the package name.
+MIP downloads and extracts the archive, generates a `mip.yaml` via `mip init` if one isn't included, and installs it into MIP's package store. The positional name (`my_package` above) becomes the package name.
 
 URL-installed packages cannot be updated automatically — `mip update` skips them, since the original archive is not preserved. To pull a newer version, run `mip install --url` again (uninstalling first if needed).
 

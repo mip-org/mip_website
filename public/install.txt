@@ -119,8 +119,8 @@ end
 
 fprintf('Installing mip version %s to ''%s''\n', mip_install___latest.version, mip_install___mipdirpretty);
 
-% Unzip the .mhl to <MIPDIR>/packages/mip-org/core/mip
-mip_install___mippackagedir = fullfile(mip_install___mipdir, 'packages', 'mip-org', 'core', 'mip');
+% Unzip the .mhl to <MIPDIR>/packages/gh/mip-org/core/mip
+mip_install___mippackagedir = fullfile(mip_install___mipdir, 'packages', 'gh', 'mip-org', 'core', 'mip');
 try
     unzip(mip_install___mhl, mip_install___mippackagedir);
 catch
@@ -138,8 +138,8 @@ try
     % Change the path to match what it would be if MATLAB had just started up
     path(pathdef);
 
-    % Add <MIPDIR>/packages/mip-org/core/mip/mip to the path and save it for future MATLAB
-    % sessions
+    % Add <MIPDIR>/packages/gh/mip-org/core/mip/mip to the path and save it for
+    % future MATLAB sessions
     mip_install___mipsourcedir = fullfile(mip_install___mippackagedir, 'mip');
     addpath(mip_install___mipsourcedir);
     savepath();
@@ -150,7 +150,7 @@ catch
     error('Failed to save mip to the MATLAB path. Installation aborted.');
 end
 
-% Restore the path to what it was before and add <MIPDIR>/packages/mip-org/core/mip/mip
+% Restore the path to what it was before and add <MIPDIR>/packages/gh/mip-org/core/mip/mip
 % to the path for the current MATLAB session
 path(mip_install___current_path);
 addpath(mip_install___mipsourcedir);

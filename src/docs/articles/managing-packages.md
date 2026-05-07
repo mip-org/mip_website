@@ -133,7 +133,7 @@ This is equivalent to `mip unload --all --force` plus clearing in-memory trackin
 
 ## Where packages live
 
-MIP stores installed packages under a single root directory, with subdirectories organized by `org/channel/name`. To relocate the root, set the `MIP_ROOT` environment variable before starting MATLAB:
+MIP stores installed packages under a single root directory. To relocate the root, set the `MIP_ROOT` environment variable before starting MATLAB:
 
 ```bash
 export MIP_ROOT=/path/to/mip-root

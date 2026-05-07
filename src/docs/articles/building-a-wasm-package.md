@@ -133,7 +133,7 @@ The `mip.yaml` for a WASM package looks like this:
 ```yaml
 name: hello_mip_wasm
 description: "A simple test package demonstrating WASM compilation for numbl"
-version: "main"
+version: ""
 license: MIT
 homepage: "https://github.com/mip-org/hello_mip_wasm"
 repository: "https://github.com/mip-org/hello_mip_wasm"

@@ -74,7 +74,7 @@ The `mip.yaml` for a MEX package looks like this:
 ```yaml
 name: hello_mip_mex
 description: "A simple test package demonstrating MEX compilation"
-version: "main"
+version: ""
 license: MIT
 homepage: "https://github.com/mip-org/hello_mip_mex"
 repository: "https://github.com/mip-org/hello_mip_mex"

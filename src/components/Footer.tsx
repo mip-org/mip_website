@@ -68,6 +68,15 @@ export default function Footer() {
             </MuiLink>
           </Box>
         </Box>
+        <Typography
+          variant="caption"
+          component="p"
+          color="text.secondary"
+          sx={{ mt: 3, textAlign: { xs: "center", sm: "left" }, opacity: 0.8 }}
+        >
+          mip is not affiliated with, endorsed by, or supported by The MathWorks, Inc.
+          MATLAB is a registered trademark of The MathWorks, Inc.
+        </Typography>
       </Container>
     </Box>
   );

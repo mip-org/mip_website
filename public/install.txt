@@ -15,9 +15,9 @@ fprintf(['This script will:\n' ...
 
 % Prompt the user for custom mip location (default: <userpath>/mip)
 if ispc || isempty(getenv('HOME'))
-    mip_install___input = input(sprintf('\nEnter install location for mip (%s): ', fullfile(userpath, 'mip')), 's');
+    mip_install___input = input(strrep(sprintf('\nEnter install location for mip (%s): ', fullfile(userpath, 'mip')), '\', '\\'), 's');
 else
-    mip_install___input = input(sprintf('\nEnter install location for mip (%s): ', replace(fullfile(userpath, 'mip'), getenv('HOME'), '~')), 's');
+    mip_install___input = input(strrep(sprintf('\nEnter install location for mip (%s): ', replace(fullfile(userpath, 'mip'), getenv('HOME'), '~')), '\', '\\'), 's');
 end
 if isempty(mip_install___input)
     mip_install___mipdir = fullfile(userpath, 'mip');

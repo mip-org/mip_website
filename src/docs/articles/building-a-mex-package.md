@@ -84,7 +84,7 @@ paths:
   - path: "."
 
 builds:
-  - architectures: [linux_x86_64, macos_x86_64, macos_arm64]
+  - architectures: [linux_x86_64, macos_arm64, windows_x86_64]
     compile_script: compile.m
 ```
 

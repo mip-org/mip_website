@@ -23,3 +23,21 @@ export interface PackageIndex {
   total_packages: number;
   last_updated: string;
 }
+
+export interface DownloadStatAsset {
+  lifetime: number;
+  base: number;
+  last_raw: number;
+  asset_id: number;
+  created_at?: string;
+  first_seen: string;
+  updated: string;
+}
+
+export interface DownloadStats {
+  generated: string;
+  repo: string;
+  total_lifetime_downloads: number;
+  // Keyed by "<name>-<version>/<name>-<version>-<arch>.mhl".
+  assets: Record<string, DownloadStatAsset>;
+}

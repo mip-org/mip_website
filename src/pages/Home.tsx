@@ -161,7 +161,8 @@ export default function Home() {
       {/* Hero */}
       <Box
         sx={{
-          py: { xs: 11, md: 18 },
+          pt: { xs: 11, md: 18 },
+          pb: { xs: 7, md: 11 },
           textAlign: "center",
         }}
       >
@@ -180,7 +181,7 @@ export default function Home() {
           <Typography
             variant="h5"
             color="text.secondary"
-            sx={{ mb: 5, fontWeight: 400, fontSize: { xs: "1.1rem", md: "1.5rem" } }}
+            sx={{ mb: 7, fontWeight: 400, fontSize: { xs: "1.1rem", md: "1.5rem" } }}
           >
             The missing package manager for MATLAB
             <Box
@@ -203,13 +204,9 @@ export default function Home() {
           <Typography
             variant="body2"
             color="text.secondary"
-            sx={{ mt: 2.5, fontSize: { xs: "0.85rem", md: "0.95rem" } }}
+            sx={{ mt: 0.75, fontSize: { xs: "0.85rem", md: "0.95rem" } }}
           >
-            Paste that into the{" "}
-            <Box component="span" sx={{ color: "text.primary", fontWeight: 600 }}>
-              MATLAB Command Window
-            </Box>
-            .
+            To install, paste that into the MATLAB Command Window.
           </Typography>
         </Container>
       </Box>

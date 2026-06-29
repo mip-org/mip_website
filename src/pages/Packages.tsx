@@ -4,6 +4,7 @@ import {
   Container,
   Typography,
   Paper,
+  Button,
   Chip,
   Link as MuiLink,
   TextField,
@@ -67,9 +68,29 @@ export default function Packages() {
 
   return (
     <Container maxWidth="lg" sx={{ py: 6 }}>
-      <Typography variant="h2" sx={{ mb: 1 }}>
-        Packages
-      </Typography>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          flexWrap: "wrap",
+          gap: 2,
+          mb: 1,
+        }}
+      >
+        <Typography variant="h2">Packages</Typography>
+        <Button
+          variant="outlined"
+          size="small"
+          href="https://github.com/mip-org/mip-core/issues/new?template=request-package.yml"
+          target="_blank"
+          rel="noopener noreferrer"
+          endIcon={<OpenInNew sx={{ fontSize: 14 }} />}
+          sx={{ flexShrink: 0 }}
+        >
+          Request a package
+        </Button>
+      </Box>
       <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
         {data
           ? `${packages.length} packages available`

@@ -2,7 +2,7 @@
 title: Creating a Package
 slug: creating-a-package
 summary: Create a MIP package from local MATLAB code and install it.
-order: 3
+order: 4
 ---
 
 A MIP package is a directory of MATLAB code with a `mip.yaml` file that describes it. You can create, install, and use packages locally without publishing them to a channel.

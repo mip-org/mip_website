@@ -2,7 +2,7 @@
 title: Hosting a Channel
 slug: hosting-a-channel
 summary: Set up a GitHub-based MIP channel to distribute packages to others.
-order: 5
+order: 6
 ---
 
 MIP packages are distributed through **channels**, which are GitHub repos that build packages and publish an index via GitHub Pages. The official channel is `mip-org/core`, but you can create your own to distribute packages for your lab, team, or project.

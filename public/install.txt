@@ -155,6 +155,7 @@ path(mip_install___current_path);
 addpath(mip_install___mipsourcedir);
 
 fprintf('Installation successful!\n');
+fprintf('Type ''mip help'' to get started.\n');
 if ~mip_install___saved
     fprintf(['\nWarning: mip could not be saved to your MATLAB path for future sessions.\n' ...
              'To load mip automatically in future sessions, add this line to your\n' ...
@@ -162,7 +163,6 @@ if ~mip_install___saved
              '   addpath(''%s'')\n\n'], ...
             fullfile(mip_install___mipdirpretty, 'packages', 'gh', 'mip-org', 'core', 'mip', 'mip'));
 end
-fprintf('Type ''mip help'' to get started.\n');
 
 % Clean up the workspace
 clear mip_install___*

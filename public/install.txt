@@ -133,29 +133,55 @@ end
 
 % Cache the user's current path
 mip_install___current_path = path;
+mip_install___mipsourcedir = fullfile(mip_install___mippackagedir, 'mip');
 
+% Add <MIPDIR>/packages/gh/mip-org/core/mip/mip to the path and save it for
+% future MATLAB sessions. savepath() returns a nonzero status (rather than
+% erroring) when it cannot write the default pathdef.m -- common on managed or
+% shared installs where it is read-only. In that case, fall back to writing a
+% pathdef.m in the user's startup folder (userpath), which MATLAB loads at
+% startup. savepath writes the current path (= the active pathdef plus mip), so
+% an existing userpath/pathdef.m keeps its contents and gains the mip entry.
+% A failure here is not fatal -- mip still works in this session -- so warn and
+% print instructions rather than aborting.
+mip_install___saved = false;
+mip_install___savedtouserpath = false;
 try
     % Change the path to match what it would be if MATLAB had just started up
     path(pathdef);
-
-    % Add <MIPDIR>/packages/gh/mip-org/core/mip/mip to the path and save it for
-    % future MATLAB sessions
-    mip_install___mipsourcedir = fullfile(mip_install___mippackagedir, 'mip');
     addpath(mip_install___mipsourcedir);
-    savepath();
+    if savepath() == 0
+        mip_install___saved = true;
+    elseif ~isempty(userpath) && savepath(fullfile(userpath, 'pathdef.m')) == 0
+        mip_install___saved = true;
+        mip_install___savedtouserpath = true;
+    end
 catch
-    % Restore the user's path if anything goes wrong
-    path(mip_install___current_path);
-    clear mip_install___*
-    error('Failed to save mip to the MATLAB path. Installation aborted.');
 end
 
 % Restore the path to what it was before and add <MIPDIR>/packages/gh/mip-org/core/mip/mip
-% to the path for the current MATLAB session
+% to the path for the current MATLAB session (whether or not the permanent save worked)
 path(mip_install___current_path);
 addpath(mip_install___mipsourcedir);
 
 fprintf('Installation successful!\n');
+if mip_install___savedtouserpath
+    if ispc || isempty(getenv('HOME'))
+        mip_install___userpathdefpretty = fullfile(userpath, 'pathdef.m');
+    else
+        mip_install___userpathdefpretty = replace(fullfile(userpath, 'pathdef.m'), getenv('HOME'), '~');
+    end
+    fprintf(['\nNote: MATLAB''s default path file was not writable, so mip was saved to\n' ...
+             'your user path file ''%s'' instead (MATLAB loads this at startup).\n'], ...
+            mip_install___userpathdefpretty);
+elseif ~mip_install___saved
+    fprintf(['\nWarning: mip could not be saved to your MATLAB path for future sessions\n' ...
+             '(MATLAB''s path file is not writable). mip is ready to use in this session.\n' ...
+             'To load mip automatically in future sessions, add this line to your\n' ...
+             'startup.m file:\n' ...
+             '    addpath(''%s'')\n\n'], ...
+            fullfile(mip_install___mipdirpretty, 'packages', 'gh', 'mip-org', 'core', 'mip', 'mip'));
+end
 fprintf('Type ''mip help'' to get started.\n');
 
 % Clean up the workspace

@@ -183,8 +183,34 @@ export default function Home() {
             sx={{ mb: 5, fontWeight: 400, fontSize: { xs: "1.1rem", md: "1.5rem" } }}
           >
             The missing package manager for MATLAB
+            <Box
+              component="a"
+              href="#mathworks-disclaimer"
+              aria-label="Trademark disclaimer"
+              sx={{
+                color: "inherit",
+                textDecoration: "none",
+                fontSize: "0.6em",
+                verticalAlign: "super",
+                opacity: 0.7,
+                "&:hover": { opacity: 1 },
+              }}
+            >
+              &dagger;
+            </Box>
           </Typography>
           <HeroCommand />
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{ mt: 2.5, fontSize: { xs: "0.85rem", md: "0.95rem" } }}
+          >
+            Paste that into the{" "}
+            <Box component="span" sx={{ color: "text.primary", fontWeight: 600 }}>
+              MATLAB Command Window
+            </Box>
+            .
+          </Typography>
         </Container>
       </Box>
 

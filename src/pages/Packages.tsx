@@ -12,12 +12,18 @@ import {
   CircularProgress,
   Alert,
 } from "@mui/material";
-import { OpenInNew } from "@mui/icons-material";
+import { OpenInNew, FileDownloadOutlined } from "@mui/icons-material";
 import CodeBlock from "../components/CodeBlock";
-import type { Package, PackageIndex } from "../types";
+import type { Package, PackageIndex, DownloadStats } from "../types";
 
 const INDEX_URL =
   "https://mip-org.github.io/mip-core/index.json";
+
+// Lifetime download counts, published to the channel repo's `stats` branch by
+// the daily download-stats workflow. Absent until that branch exists, so a
+// failed fetch is non-fatal — the page just renders without counts.
+const STATS_URL =
+  "https://raw.githubusercontent.com/mip-org/mip-core/stats/download-stats.json";
 
 function deduplicatePackages(packages: Package[]): Package[] {
   // Group by name, keeping all architectures
@@ -38,6 +44,7 @@ export default function Packages() {
   const theme = useTheme();
   const [data, setData] = useState<PackageIndex | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [stats, setStats] = useState<DownloadStats | null>(null);
   const [search, setSearch] = useState("");
 
   useEffect(() => {
@@ -50,10 +57,29 @@ export default function Packages() {
       .catch((e) => setError(e.message));
   }, []);
 
+  useEffect(() => {
+    fetch(STATS_URL)
+      .then((r) => (r.ok ? r.json() : null))
+      .then(setStats)
+      .catch(() => setStats(null));
+  }, []);
+
   const packages = useMemo(
     () => (data ? deduplicatePackages(data.packages) : []),
     [data]
   );
+
+  // Aggregate lifetime downloads over all architectures of each (package,
+  // release), keyed by the "<name>-<version>" release tag.
+  const downloadsByTag = useMemo(() => {
+    const totals = new Map<string, number>();
+    if (!stats) return totals;
+    for (const [key, asset] of Object.entries(stats.assets)) {
+      const tag = key.split("/")[0];
+      totals.set(tag, (totals.get(tag) ?? 0) + asset.lifetime);
+    }
+    return totals;
+  }, [stats]);
 
   const filtered = useMemo(() => {
     if (!search) return packages;
@@ -122,7 +148,9 @@ export default function Packages() {
 
       {filtered.length > 0 && (
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-          {filtered.map((pkg) => (
+          {filtered.map((pkg) => {
+            const downloads = downloadsByTag.get(`${pkg.name}-${pkg.version}`);
+            return (
             <Paper
               key={`${pkg.name}-${pkg.architecture}`}
               elevation={0}
@@ -159,6 +187,16 @@ export default function Packages() {
                         label={pkg.version}
                         size="small"
                         variant="outlined"
+                      />
+                    )}
+                    {downloads !== undefined && (
+                      <Chip
+                        icon={<FileDownloadOutlined sx={{ fontSize: 15 }} />}
+                        label={downloads.toLocaleString()}
+                        size="small"
+                        variant="outlined"
+                        title={`${downloads.toLocaleString()} downloads (all architectures)`}
+                        sx={{ color: "text.secondary" }}
                       />
                     )}
                   </Box>
@@ -219,7 +257,8 @@ export default function Packages() {
                 <CodeBlock inline highlight={false}>{`mip install ${pkg.name}`}</CodeBlock>
               </Box>
             </Paper>
-          ))}
+            );
+          })}
         </Box>
       )}
     </Container>

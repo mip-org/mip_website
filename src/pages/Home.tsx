@@ -161,7 +161,8 @@ export default function Home() {
       {/* Hero */}
       <Box
         sx={{
-          py: { xs: 11, md: 18 },
+          pt: { xs: 11, md: 18 },
+          pb: { xs: 9, md: 17 },
           textAlign: "center",
         }}
       >
@@ -183,8 +184,30 @@ export default function Home() {
             sx={{ mb: 5, fontWeight: 400, fontSize: { xs: "1.1rem", md: "1.5rem" } }}
           >
             The missing package manager for MATLAB
+            <Box
+              component="a"
+              href="#mathworks-disclaimer"
+              aria-label="Trademark disclaimer"
+              sx={{
+                color: "inherit",
+                textDecoration: "none",
+                fontSize: "0.6em",
+                verticalAlign: "super",
+                opacity: 0.7,
+                "&:hover": { opacity: 1 },
+              }}
+            >
+              &dagger;
+            </Box>
           </Typography>
           <HeroCommand />
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{ mt: 0.75, fontSize: { xs: "0.85rem", md: "0.95rem" } }}
+          >
+            To install, paste that into the MATLAB Command Window.
+          </Typography>
         </Container>
       </Box>
 

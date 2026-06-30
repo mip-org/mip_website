@@ -3,6 +3,7 @@ import { ThemeContextProvider } from "./ThemeContext";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
+import Analytics from "./components/Analytics";
 import Home from "./pages/Home";
 import Packages from "./pages/Packages";
 import Docs from "./pages/Docs";
@@ -16,6 +17,7 @@ export default function App() {
     <ThemeContextProvider>
       <BrowserRouter>
         <ScrollToTop />
+        <Analytics />
         <Box
           sx={{
             display: "flex",

@@ -99,12 +99,11 @@ Editable installs re-run `compile_script` on every `mip update`. Pass `--no-comp
 
 ## Testing your package
 
-`mip init` creates a blank `test_<name>.m` script and points the `test_script` field of your `mip.yaml` at it. Fill that script with whatever checks your package needs — by convention it should error if something is wrong and print `SUCCESS` when everything passes:
+`mip init` creates a blank `test_<name>.m` script and points the `test_script` field of your `mip.yaml` at it. Fill that script with whatever checks your package needs — it should error if something is wrong:
 
 ```matlab
 % test_my_package.m
 assert(isequal(my_function(2), 4), 'my_function(2) should return 4');
-disp('SUCCESS');
 ```
 
 Run it any time with:

@@ -115,7 +115,7 @@ mip load youruser/mylab/my_package
 
 ### Personal channels
 
-Many people publish from a single **personal channel** whose name matches their account — the repo `youruser/mip-youruser`. As a shorthand, a bare account name expands to this personal channel, so you can drop the repeated segment:
+A **personal channel** is one whose name matches the account that hosts it — the repo `youruser/mip-youruser`. As a shorthand, a bare account name expands to this personal channel, so you can drop the repeated segment:
 
 ```matlab
 mip install --channel youruser my_package   % same as --channel youruser/youruser

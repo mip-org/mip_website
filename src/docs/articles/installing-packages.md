@@ -41,6 +41,26 @@ mip load chebfun
 
 This adds the package (and its dependencies) to your path for the current session. Dependencies are loaded automatically too.
 
+### Installing on demand
+
+If you're not sure a package is installed yet, `--install` installs it first (if needed) and then loads it, in one step:
+
+```matlab
+mip load chebfun --install
+mip load --channel youruser/mylab my_package --install
+```
+
+### Loading extra path groups
+
+Some packages ship optional directories — examples, tests, benchmarks — that aren't on the path by default. If the package declares them as **extra path groups** in its `mip.yaml`, pull one in at load time with `--with`:
+
+```matlab
+mip load chebfun --with examples
+mip load chebfun --with examples --with tests
+```
+
+`--with` can be repeated, and applies only to the package you name — not its dependencies. Like `--addpath`, it's transient: the next plain `mip load` reverts to the package's default paths.
+
 ### Adding or removing extra paths at load time
 
 Sometimes a package's default `paths` aren't quite what you want — you may need an extra subdirectory on the path, or want to drop one that shadows something else. Pass `--addpath <relpath>` or `--rmpath <relpath>` to `mip load`:
@@ -93,6 +113,25 @@ mip install youruser/mylab/my_package
 mip load youruser/mylab/my_package
 ```
 
+### Subscribing to a channel
+
+Passing `--channel youruser/mylab` on every command gets tedious if you use a channel a lot. Subscribe to it once, and bare-name installs fall back to it automatically:
+
+```matlab
+mip channel add youruser/mylab     % subscribe at highest priority
+mip install my_package             % now resolves on youruser/mylab if not in core
+```
+
+When you install a bare name, MIP checks `mip-org/core` first, then each subscribed channel in priority order, and uses the first one that publishes the package. Manage your subscriptions with:
+
+```matlab
+mip channel list                   % show subscriptions in priority order
+mip channel append youruser/other  % subscribe at lowest priority
+mip channel remove youruser/mylab  % unsubscribe
+```
+
+`mip channel add` puts a channel at the top of the priority list (re-running it moves an existing subscription back to the top); `mip channel append` puts it at the bottom. Subscriptions are saved on disk and persist across MATLAB sessions.
+
 ## Requesting a specific version
 
 Append `@<version>` to request a specific version:
@@ -130,8 +169,19 @@ Since File Exchange entries don't come with a `mip.yaml`, MIP makes a best guess
 
 This only works for File Exchange entries distributed as a zip file. MATLAB Toolbox (`.mltbx`) entries are not supported.
 
+## Installing from a `.mhl` file
+
+A `.mhl` file is a single-file MIP package bundle — the same artifact a channel builds and publishes. If someone hands you one directly, or links to one, install it without any channel:
+
+```matlab
+mip install /path/to/chebfun-1.0.0-any.mhl
+mip install https://example.com/chebfun-1.0.0-any.mhl
+```
+
+This is convenient for sharing a prebuilt package offline. To build a `.mhl` from your own package directory, see [Creating a Package](/docs/creating-a-package).
+
 ## Architectures
 
 Each package declares which architectures it supports. MIP prefers an exact match for your platform; if the package declares `any`, that's used as a fallback. If the requested version has no compatible build, installation fails — MIP does **not** silently fall back to an older version. To install an older version that does support your platform, use `@version` explicitly.
 
-Run `mip arch` to see your platform's architecture string.
+Run `mip info` with no package name to see your platform's architecture string — it also reports the installed mip version and the root directory where packages live.

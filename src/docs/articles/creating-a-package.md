@@ -43,9 +43,23 @@ builds:
   - architectures: [any]
 ```
 
-`mip init` generates this shape with some fields left blank (`description`, `license`, `homepage`, and `repository`) and `version: "unknown"` as a placeholder, ready for you to edit.
+`mip init` generates this shape with the string fields (`description`, `version`, `license`, `homepage`, and `repository`) left blank, ready for you to fill in.
 
 The `paths` entries tell MIP which directories to add to the MATLAB path when the package is loaded. Only the listed directories are added — subdirectories are not added automatically. `architectures: [any]` means the package is pure MATLAB with no compiled code.
+
+### Optional path groups
+
+Directories that shouldn't be on the path by default — examples, tests, benchmarks — can be declared under `extra_paths`, grouped by name:
+
+```yaml
+extra_paths:
+  examples:
+    - path: "examples"
+  tests:
+    - path: "tests"
+```
+
+Users opt into a group at load time with `mip load my_package --with examples`. `mip init` recognizes common `examples/`, `tests/`, and `benchmarks/` folders and fills in `extra_paths` for you automatically, keeping them off the default path.
 
 ## Installing locally
 
@@ -100,6 +114,17 @@ dependencies:
 `mip.yaml` dependencies are plain package names only — there is no `@version` suffix and no version-constraint grammar.
 
 When someone installs your package from a channel, MIP installs the dependencies too. When they load it, dependencies are loaded first.
+
+## Sharing a package as a single file
+
+To hand a package to someone without setting up a channel, bundle it into a single `.mhl` file:
+
+```matlab
+mip bundle ./my_package
+mip bundle ./my_package --output ~/dist
+```
+
+This produces `my_package-<version>-<arch>.mhl`, which anyone can install directly with `mip install path/to/my_package-<version>-<arch>.mhl` (see [Installing Packages](/docs/installing-packages)). For ongoing distribution with automatic updates, host a channel instead.
 
 ## What's next
 

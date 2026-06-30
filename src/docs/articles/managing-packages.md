@@ -5,7 +5,7 @@ summary: Update, uninstall, compile, and inspect packages after they are install
 order: 2
 ---
 
-Once packages are installed, MIP provides commands for keeping them current, inspecting their state, and removing them. This article covers the day-to-day lifecycle.
+Once packages are installed, mip provides commands for keeping them current, inspecting their state, and removing them. This article covers the day-to-day lifecycle.
 
 ## Listing and inspecting
 
@@ -66,13 +66,13 @@ Pinned packages are skipped by `mip update --all` (a "Skipping pinned package" m
 
 Pinned packages show up with a `[pinned]` marker in `mip list`. The pin is cleared automatically if you uninstall the package.
 
-### Updating MIP itself
+### Updating mip itself
 
 ```matlab
 mip update mip
 ```
 
-This fetches the latest MIP from `mip-org/core` and replaces it in place.
+This fetches the latest mip from `mip-org/core` and replaces it in place.
 
 ### Skipping compilation
 
@@ -98,13 +98,13 @@ If a bare name matches installations on multiple channels, `mip uninstall` refus
 mip uninstall mip-org/core/chebfun
 ```
 
-### Uninstalling MIP itself
+### Uninstalling mip itself
 
 ```matlab
 mip uninstall mip
 ```
 
-This triggers a full uninstall: MIP unloads every package, deletes the entire root directory, and removes itself from your saved MATLAB path. You'll be asked to confirm before anything is deleted. To reinstall later, run the install command from the [Installing Packages](/docs/installing-packages) article.
+This triggers a full uninstall: mip unloads every package, deletes the entire root directory, and removes itself from your saved MATLAB path. You'll be asked to confirm before anything is deleted. To reinstall later, run the install command from the [Installing Packages](/docs/installing-packages) article.
 
 ## Compiling a package
 
@@ -124,9 +124,9 @@ mip test my_package
 
 Loads the package (if not already loaded) and runs its `test_script` as declared in `mip.yaml`.
 
-## Resetting MIP state
+## Resetting mip state
 
-To unload everything and clear MIP's in-memory load state:
+To unload everything and clear mip's in-memory load state:
 
 ```matlab
 mip reset
@@ -136,7 +136,7 @@ This is equivalent to `mip unload --all --force` plus clearing in-memory trackin
 
 ## Where packages live
 
-MIP stores installed packages under a single root directory. To relocate the root, set the `MIP_ROOT` environment variable before starting MATLAB:
+mip stores installed packages under a single root directory. To relocate the root, set the `MIP_ROOT` environment variable before starting MATLAB:
 
 ```bash
 export MIP_ROOT=/path/to/mip-root

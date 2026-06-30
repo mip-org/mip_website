@@ -1,13 +1,13 @@
 ---
 title: Building a WASM Package
 slug: building-a-wasm-package
-summary: Create a MIP package that compiles C code to WebAssembly for use in Numbl.
+summary: Create a mip package that compiles C code to WebAssembly for use in Numbl.
 order: 4
 ---
 
 [Numbl](https://numbl.org) is a MATLAB-compatible computing environment that runs in the browser and on the desktop. It executes `.m` files by compiling them to JavaScript, which works well for basic code. But for computationally intensive operations, you can write functions in C, compile them to WebAssembly, and call them from your numbl code. This is numbl's equivalent of MEX in MATLAB, where you'd compile C/C++ into MEX binaries. WASM gives you better performance than pure JavaScript while still running entirely in the browser.
 
-In this guide we'll create a MIP package that includes a WASM-compiled C function. We'll use a simple dot product as the example, but the same pattern applies to wrapping larger C/C++ libraries.
+In this guide we'll create a mip package that includes a WASM-compiled C function. We'll use a simple dot product as the example, but the same pattern applies to wrapping larger C/C++ libraries.
 
 ## How it works
 

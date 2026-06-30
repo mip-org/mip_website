@@ -1,11 +1,11 @@
 ---
 title: Creating a Package
 slug: creating-a-package
-summary: Create a MIP package from local MATLAB code and install it.
+summary: Create a mip package from local MATLAB code and install it.
 order: 4
 ---
 
-A MIP package is a directory of MATLAB code with a `mip.yaml` file that describes it. You can create, install, and use packages locally without publishing them to a channel.
+A mip package is a directory of MATLAB code with a `mip.yaml` file that describes it. You can create, install, and use packages locally without publishing them to a channel.
 
 ## Scaffolding with `mip init`
 
@@ -31,7 +31,7 @@ A filled-in `mip.yaml` for a pure-MATLAB package looks like this:
 
 ```yaml
 name: my_package
-description: "My first MIP package"
+description: "My first mip package"
 version: "0.1.0"
 license: MIT
 dependencies: []
@@ -47,7 +47,7 @@ builds:
 
 `mip init` generates this shape with the string fields (`description`, `version`, `license`, `homepage`, and `repository`) left blank, ready for you to fill in.
 
-The `paths` entries tell MIP which directories to add to the MATLAB path when the package is loaded. Only the listed directories are added — subdirectories are not added automatically. `architectures: [any]` means the package is pure MATLAB with no compiled code.
+The `paths` entries tell mip which directories to add to the MATLAB path when the package is loaded. Only the listed directories are added — subdirectories are not added automatically. `architectures: [any]` means the package is pure MATLAB with no compiled code.
 
 ### Optional path groups
 
@@ -74,7 +74,7 @@ mip install /abs/path/to/my_package
 
 If the directory has no `mip.yaml`, `mip install` offers to run `mip init` for you before continuing.
 
-This bundles and installs the package into MIP's package store. You can then load and use it:
+This bundles and installs the package into mip's package store. You can then load and use it:
 
 ```matlab
 mip load my_package
@@ -116,7 +116,7 @@ mip test my_package
 
 ## Dependencies
 
-If your package depends on other MIP packages, list them:
+If your package depends on other mip packages, list them:
 
 ```yaml
 dependencies: ["chebfun", "finufft"]
@@ -132,7 +132,7 @@ dependencies:
 
 `mip.yaml` dependencies are plain package names only — there is no `@version` suffix and no version-constraint grammar.
 
-When someone installs your package from a channel, MIP installs the dependencies too. When they load it, dependencies are loaded first.
+When someone installs your package from a channel, mip installs the dependencies too. When they load it, dependencies are loaded first.
 
 ## Sharing a package as a single file
 

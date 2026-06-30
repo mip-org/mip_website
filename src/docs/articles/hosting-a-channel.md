@@ -1,11 +1,11 @@
 ---
 title: Hosting a Channel
 slug: hosting-a-channel
-summary: Set up a GitHub-based MIP channel to distribute packages to others.
+summary: Set up a GitHub-based mip channel to distribute packages to others.
 order: 6
 ---
 
-MIP packages are distributed through **channels**, which are GitHub repos that build packages and publish an index via GitHub Pages. The official channel is `mip-org/core`, but you can create your own to distribute packages for your lab, team, or project.
+mip packages are distributed through **channels**, which are GitHub repos that build packages and publish an index via GitHub Pages. The official channel is `mip-org/core`, but you can create your own to distribute packages for your lab, team, or project.
 
 ## Setting up your channel
 
@@ -13,7 +13,7 @@ A channel is just a GitHub repo with a `packages/` folder and a small set of Git
 
 [mip-example](https://github.com/mip-org/mip-example) (a single package) and [mip-hello](https://github.com/mip-org/mip-hello) (a handful of packages showing different source layouts) are both kept current with the build system and make good starting points.
 
-1. Create an empty GitHub repo named `mip-<channel_name>` — for example `mip-mylab`. The name matters: when someone runs `mip install --channel youruser/mylab ...`, MIP looks for a repo called `mip-mylab` under your account.
+1. Create an empty GitHub repo named `mip-<channel_name>` — for example `mip-mylab`. The name matters: when someone runs `mip install --channel youruser/mylab ...`, mip looks for a repo called `mip-mylab` under your account.
 
 2. Copy an example channel into it and point it at your repo:
 

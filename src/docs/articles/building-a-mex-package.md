@@ -1,11 +1,11 @@
 ---
 title: Building a MEX Package
 slug: building-a-mex-package
-summary: Create a MIP package that compiles C code into MEX binaries for MATLAB.
+summary: Create a mip package that compiles C code into MEX binaries for MATLAB.
 order: 5
 ---
 
-MEX files let you call compiled C, C++, or Fortran code directly from MATLAB. MIP handles compilation automatically: you provide your source code and a compile script, and the channel's CI builds architecture-specific MEX binaries for Linux, macOS, and Windows.
+MEX files let you call compiled C, C++, or Fortran code directly from MATLAB. mip handles compilation automatically: you provide your source code and a compile script, and the channel's CI builds architecture-specific MEX binaries for Linux, macOS, and Windows.
 
 ## How it works
 
@@ -94,7 +94,7 @@ Compared to a pure-MATLAB package:
 - `compile_script` points to the MATLAB script that compiles the MEX files. The channel's CI runs this automatically on each target platform.
 - The `paths` entry points to the directory containing both the `.c` source and the compiled `.mex*` binary. MATLAB resolves the MEX function by name, just like a `.m` file.
 
-MIP strips any pre-compiled MEX binaries from the source before building. This ensures every binary is built from source in CI, so users get consistent, trustworthy builds for their platform.
+mip strips any pre-compiled MEX binaries from the source before building. This ensures every binary is built from source in CI, so users get consistent, trustworthy builds for their platform.
 
 ## Using the package
 

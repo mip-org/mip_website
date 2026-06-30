@@ -1,13 +1,13 @@
 ---
 title: Installing Packages
 slug: installing-packages
-summary: Install and load MATLAB packages from the MIP package index.
+summary: Install and load MATLAB packages from the mip package index.
 order: 1
 ---
 
-## Installing MIP
+## Installing mip
 
-To install MIP, run this in the MATLAB command window:
+To install mip, run this in the MATLAB Command Window:
 
 ```matlab
 eval(webread('https://mip.sh/install.txt'))
@@ -29,7 +29,7 @@ Install multiple packages at once:
 mip install chebfun finufft
 ```
 
-MIP resolves dependencies automatically. If a package depends on other packages, they'll be installed too.
+mip resolves dependencies automatically. If a package depends on other packages, they'll be installed too.
 
 ## Loading a package
 
@@ -131,7 +131,7 @@ mip channel add youruser/mylab     % subscribe at highest priority
 mip install my_package             % now resolves on youruser/mylab if not in core
 ```
 
-When you install a bare name, MIP checks `mip-org/core` first, then each subscribed channel in priority order, and uses the first one that publishes the package. Manage your subscriptions with:
+When you install a bare name, mip checks `mip-org/core` first, then each subscribed channel in priority order, and uses the first one that publishes the package. Manage your subscriptions with:
 
 ```matlab
 mip channel list                   % show subscriptions in priority order
@@ -150,19 +150,19 @@ mip install chebfun@1.0.0
 mip install mip-org/core/chebfun@main
 ```
 
-This is a request, not a pin — MIP installs that version if it exists in the channel, and fails with `mip:versionNotFound` otherwise. There is no lock file and no version-constraint grammar.
+This is a request, not a pin — mip installs that version if it exists in the channel, and fails with `mip:versionNotFound` otherwise. There is no lock file and no version-constraint grammar.
 
 If you install a non-numeric version like `main`, `mip update` will keep you on that track rather than silently switching you to a numeric release that later appears alongside it. To switch tracks, run `mip install` again with an explicit `@version`.
 
 ## Installing from a zip URL
 
-You can install any MATLAB code that's published as a zip archive, even if it's not in a MIP channel:
+You can install any MATLAB code that's published as a zip archive, even if it's not in a mip channel:
 
 ```matlab
 mip install my_package --url https://github.com/someone/repo/archive/refs/heads/main.zip
 ```
 
-MIP downloads and extracts the archive, generates a `mip.yaml` via `mip init` if one isn't included, and installs it into MIP's package store. The positional name (`my_package` above) becomes the package name.
+mip downloads and extracts the archive, generates a `mip.yaml` via `mip init` if one isn't included, and installs it into mip's package store. The positional name (`my_package` above) becomes the package name.
 
 URL-installed packages cannot be updated automatically — `mip update` skips them, since the original archive is not preserved. To pull a newer version, run `mip install --url` again (uninstalling first if needed).
 
@@ -174,13 +174,13 @@ URL-installed packages cannot be updated automatically — `mip update` skips th
 mip install some_package --url https://www.mathworks.com/matlabcentral/fileexchange/12345-some-package
 ```
 
-Since File Exchange entries don't come with a `mip.yaml`, MIP makes a best guess at which subdirectories to add to the MATLAB path on load. You may need to tweak the generated `mip.yaml` (or use `--addpath` / `--rmpath` on `mip load`) if the defaults aren't quite right.
+Since File Exchange entries don't come with a `mip.yaml`, mip makes a best guess at which subdirectories to add to the MATLAB path on load. You may need to tweak the generated `mip.yaml` (or use `--addpath` / `--rmpath` on `mip load`) if the defaults aren't quite right.
 
 This only works for File Exchange entries distributed as a zip file. MATLAB Toolbox (`.mltbx`) entries are not supported.
 
 ## Installing from a `.mhl` file
 
-A `.mhl` file is a single-file MIP package bundle — the same artifact a channel builds and publishes. If someone hands you one directly, or links to one, install it without any channel:
+A `.mhl` file is a single-file mip package bundle — the same artifact a channel builds and publishes. If someone hands you one directly, or links to one, install it without any channel:
 
 ```matlab
 mip install /path/to/chebfun-1.0.0-any.mhl
@@ -191,6 +191,6 @@ This is convenient for sharing a prebuilt package offline. To build a `.mhl` fro
 
 ## Architectures
 
-Each package declares which architectures it supports. MIP prefers an exact match for your platform; if the package declares `any`, that's used as a fallback. If the requested version has no compatible build, installation fails — MIP does **not** silently fall back to an older version. To install an older version that does support your platform, use `@version` explicitly.
+Each package declares which architectures it supports. mip prefers an exact match for your platform; if the package declares `any`, that's used as a fallback. If the requested version has no compatible build, installation fails — mip does **not** silently fall back to an older version. To install an older version that does support your platform, use `@version` explicitly.
 
 Run `mip info` with no package name to see your platform's architecture string — it also reports the installed mip version and the root directory where packages live.

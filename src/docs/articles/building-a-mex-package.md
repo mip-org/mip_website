@@ -113,6 +113,52 @@ b = [2, 3, 4, 5, 6];
 mex_dot(a, b)   % Returns 70
 ```
 
+## When does compilation happen?
+
+Where the compile script runs depends on how the package is installed:
+
+- **From a channel** (`mip install hello_mip_mex`) — nothing is compiled on
+  your machine. The channel's CI already compiled the package for each
+  architecture and published the binaries inside the `.mhl` archive. Installing
+  downloads the archive for your platform and unpacks it, so you don't need a
+  compiler.
+- **From a local directory** (`mip install ./hello_mip_mex`) — mip strips any
+  pre-built binaries from the source and runs the compile script on your machine
+  for the current architecture. This path *does* require a working compiler. The
+  resulting binaries are tied to your local toolchain, so they aren't guaranteed
+  to be portable the way a channel's CI build is.
+
+## Editable installs and `mip compile`
+
+An editable install is for developing a package — mip points at your source
+directory instead of copying it, so edits to `.m` files take effect immediately
+without reinstalling:
+
+```matlab
+mip install -e .
+```
+
+For a MEX package, an editable install also runs the compile script once, in
+your source directory, so the binaries are ready to use. C/C++/Fortran changes
+aren't picked up automatically, though — after editing source that needs
+recompiling, rebuild in place with:
+
+```matlab
+mip compile hello_mip_mex
+```
+
+If you want to set up the editable install without compiling yet (for example,
+on a machine without a compiler, or before you've written the source), skip it
+with `--no-compile` and run `mip compile` later:
+
+```matlab
+mip install -e . --no-compile
+```
+
+`mip compile <package>` works on any installed package that defines a
+`compile_script` — for editable installs it compiles in your source directory,
+and for local copy installs it compiles in the installed package directory.
+
 ## What's next
 
 This example covers the basics, but the same pattern handles more complex builds. For packages that need external libraries, CMake builds, or Fortran compilation, see how [finufft](https://github.com/mip-org/mip-core/tree/main/packages/finufft) and [fmm2d](https://github.com/mip-org/mip-core/tree/main/packages/fmm2d) are packaged in mip-core.

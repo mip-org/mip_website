@@ -138,19 +138,32 @@ const features = [
 ];
 
 const commands = [
-  { cmd: "mip avail", desc: "List available packages in the package index" },
-  { cmd: "mip info <package>", desc: "Display information about a package" },
-  { cmd: "mip install <package> ...", desc: "Install one or more packages" },
-  { cmd: "mip uninstall <package> ...", desc: "Uninstall one or more packages" },
+  // Everyday essentials
+  { cmd: "mip install <package>", desc: "Install one or more packages" },
   { cmd: "mip load <package>", desc: "Load a package into the MATLAB path" },
-  { cmd: "mip load <package> --sticky", desc: "Load a package and mark it as sticky" },
+  { cmd: "mip list", desc: "List installed packages and their load status" },
   { cmd: "mip unload <package>", desc: "Unload a package from the MATLAB path" },
-  { cmd: "mip unload --all", desc: "Unload all non-sticky packages" },
-  { cmd: "mip unload --all --force", desc: "Unload all packages (including sticky ones)" },
-  { cmd: "mip list", desc: "List which packages are installed and/or loaded" },
-  { cmd: "mip arch", desc: "Display the MEX architecture for the current system" },
-  { cmd: "mip version", desc: "Display the current version of mip" },
-  { cmd: "mip help [command]", desc: "Show the help text for a command" }
+  { cmd: "mip uninstall <package>", desc: "Uninstall one or more packages" },
+  { cmd: "mip update <package>", desc: "Update installed packages to their latest version" },
+  // Discovery
+  { cmd: "mip info <package>", desc: "Show details about a package" },
+  { cmd: "mip avail", desc: "List the packages available to install" },
+  // Version pinning
+  { cmd: "mip pin <package>", desc: "Pin a package to its current version" },
+  { cmd: "mip unpin <package>", desc: "Remove a version pin from a package" },
+  // Testing
+  { cmd: "mip test <package>", desc: "Run a package's test script" },
+  // Channels
+  { cmd: "mip channel <subcommand>", desc: "Add, remove, or list channel subscriptions" },
+  // Authoring & development
+  { cmd: "mip init", desc: "Generate a starter mip.yaml for a new package" },
+  { cmd: "mip compile <package>", desc: "Compile or recompile a package's MEX files" },
+  { cmd: "mip bundle <directory>", desc: "Build a distributable .mhl file from a local package" },
+  // Maintenance
+  { cmd: "mip reset", desc: "Reset mip to a clean state" },
+  { cmd: "mip version", desc: "Display the installed mip version" },
+  { cmd: "mip help", desc: "Show an overview of all commands" },
+  { cmd: "mip help <command>", desc: "Show the help text for a specific command" }
 ];
 
 export default function Home() {

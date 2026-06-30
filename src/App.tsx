@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeContextProvider } from "./ThemeContext";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import ScrollToTop from "./components/ScrollToTop";
 import Home from "./pages/Home";
 import Packages from "./pages/Packages";
 import Docs from "./pages/Docs";
@@ -14,6 +15,7 @@ export default function App() {
   return (
     <ThemeContextProvider>
       <BrowserRouter>
+        <ScrollToTop />
         <Box
           sx={{
             display: "flex",

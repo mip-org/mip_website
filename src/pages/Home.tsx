@@ -19,7 +19,11 @@ import {
   Memory,
   ContentCopy,
   Check,
+  MenuBook,
+  Inventory2,
+  ArrowForward,
 } from "@mui/icons-material";
+import { Link as RouterLink } from "react-router-dom";
 import { hljs, buildHighlightStyles } from "../highlight";
 
 const HERO_CMD = "eval(webread('https://mip.sh/install.txt'))";
@@ -134,6 +138,23 @@ const features = [
     title: "Pure MATLAB",
     description:
       "No external tools or system dependencies required. Works anywhere MATLAB runs.",
+  },
+];
+
+const explore = [
+  {
+    icon: <Inventory2 />,
+    title: "Browse packages",
+    description:
+      "Explore the package index and find MATLAB packages ready to install.",
+    path: "/packages",
+  },
+  {
+    icon: <MenuBook />,
+    title: "Read the docs",
+    description:
+      "Learn how to install, manage, create, and publish packages with mip.",
+    path: "/docs",
   },
 ];
 
@@ -318,6 +339,59 @@ export default function Home() {
           </Paper>
         </Container>
       </Box>
+
+      <Divider />
+
+      {/* Explore */}
+      <Container maxWidth="md" sx={{ pt: 8, pb: 10 }}>
+        <Typography variant="h2" sx={{ textAlign: "center", mb: 6 }}>
+          Explore
+        </Typography>
+        <Grid container spacing={3}>
+          {explore.map((e) => (
+            <Grid size={{ xs: 12, sm: 6 }} key={e.title}>
+              <Paper
+                component={RouterLink}
+                to={e.path}
+                elevation={0}
+                sx={{
+                  display: "block",
+                  p: 3,
+                  height: "100%",
+                  textDecoration: "none",
+                  color: "inherit",
+                  border: `1px solid ${theme.palette.divider}`,
+                  transition: "border-color 0.2s",
+                  "&:hover": {
+                    borderColor: theme.palette.primary.main,
+                  },
+                }}
+              >
+                <Box
+                  sx={{
+                    color: theme.palette.primary.main,
+                    mb: 1.5,
+                    "& svg": { fontSize: 28 },
+                  }}
+                >
+                  {e.icon}
+                </Box>
+                <Typography
+                  variant="h4"
+                  sx={{ mb: 1, display: "flex", alignItems: "center", gap: 0.5 }}
+                >
+                  {e.title}
+                  <ArrowForward sx={{ fontSize: 18 }} />
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {e.description}
+                </Typography>
+              </Paper>
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+
       <Box sx={{ pb: 8 }} />
     </Box>
   );

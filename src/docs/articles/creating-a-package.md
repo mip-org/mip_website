@@ -145,6 +145,8 @@ mip bundle ./my_package --output ~/dist
 
 This produces `my_package-<version>-<arch>.mhl`, which anyone can install directly with `mip install path/to/my_package-<version>-<arch>.mhl` (see [Installing Packages](/docs/installing-packages)). For ongoing distribution with automatic updates, host a channel instead.
 
+For pure-MATLAB packages, a local bundle is fully portable. For packages with compiled MEX code, it isn't guaranteed to be: `mip bundle` compiles the MEX files on your machine, so the result is tied to your local toolchain and system libraries and may fail to load on someone else's machine even on the same architecture. To produce a truly portable bundle, [host the package on a channel](/docs/hosting-a-channel) — the CI build runs in a controlled environment designed to make the binaries portable.
+
 ## What's next
 
 For packages that include compiled C/MEX code, see [Building a MEX Package](/docs/building-a-mex-package). To distribute your package to others, see [Hosting a Channel](/docs/hosting-a-channel).

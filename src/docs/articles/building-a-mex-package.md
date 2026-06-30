@@ -122,10 +122,11 @@ Where the compile script runs depends on how the package is installed:
   architecture and published the binaries inside the `.mhl` archive. Installing
   downloads the archive for your platform and unpacks it, so you don't need a
   compiler.
-- **From a local directory** (`mip install ./hello_mip_mex`) — mip prepares the
-  package the same way CI does: it strips any pre-built binaries from the source
-  and runs the compile script on your machine for the current architecture. This
-  path *does* require a working compiler.
+- **From a local directory** (`mip install ./hello_mip_mex`) — mip strips any
+  pre-built binaries from the source and runs the compile script on your machine
+  for the current architecture. This path *does* require a working compiler. The
+  resulting binaries are tied to your local toolchain, so they aren't guaranteed
+  to be portable the way a channel's CI build is.
 
 ## Editable installs and `mip compile`
 

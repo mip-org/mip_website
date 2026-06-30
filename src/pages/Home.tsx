@@ -116,16 +116,16 @@ const features = [
     description: "Your MATLAB path is managed automatically. No more manually adding paths or running startup scripts.",
   },
   {
-    icon: <AccountTree />,
-    title: "Dependency resolution",
-    description:
-      "Resolve package dependencies automatically. Install, uninstall, load, and unload them in the correct order.",
-  },
-  {
     icon: <Memory />,
     title: "Pre-compiled MEX binaries",
     description:
       "Packages using MEX include pre-compiled binaries for your architecture. No local compilation required.",
+  },
+  {
+    icon: <AccountTree />,
+    title: "Dependency resolution",
+    description:
+      "Resolve package dependencies automatically. Install, uninstall, load, and unload them in the correct order.",
   },
   {
     icon: <RssFeed />,

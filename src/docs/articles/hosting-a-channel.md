@@ -137,7 +137,9 @@ Builds run one `(package, architecture)` pair at a time. The workflows in your c
 
 Each build prepares the source per `source.yaml`, overlays any channel-provided files, bundles (and compiles, if needed) a single `.mhl`, tests it, uploads it as a GitHub release asset, and republishes the channel index to GitHub Pages.
 
-Supported architectures are `any` (pure MATLAB, built once), `linux_x86_64`, `macos_arm64`, and `windows_x86_64`. A package declares which it supports in its `mip.yaml`. If the source hasn't changed since the last build, the build is skipped.
+CI builds `any` (pure MATLAB, built once), `linux_x86_64`, `macos_arm64`, and `windows_x86_64`. A package declares which it supports in its `mip.yaml`. If the source hasn't changed since the last build, the build is skipped.
+
+A package may also declare `macos_x86_64` (Intel Mac), but CI can't build it — MathWorks no longer supports MATLAB on Intel-Mac CI runners — so that architecture has to be built and published from an actual Intel Mac by a maintainer.
 
 ## Installing from your channel
 

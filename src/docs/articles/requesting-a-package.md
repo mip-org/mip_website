@@ -29,6 +29,12 @@ That's all that's required. If you know more, the optional notes field is the
 place for it — a specific version or tag to package, whether it needs compiled
 (MEX) code, or who uses it and why it'd help.
 
+## Package it yourself
+
+You can also package it yourself and distribute it from your own
+[custom channel](/docs/hosting-a-channel), then request that it be added to the
+core channel once it's working.
+
 ## What happens next
 
 A maintainer reviews the request, writes the packaging recipe, and runs it

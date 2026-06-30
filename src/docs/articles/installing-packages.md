@@ -104,13 +104,22 @@ The default channel is `mip-org/core`, but packages can be hosted on any channel
 mip install --channel youruser/mylab my_package
 ```
 
-Here `youruser/mylab` refers to the GitHub repo `youruser/mip-mylab`. Channel names must be in `org/channel` form — a bare name like `mylab` is rejected.
+Here `youruser/mylab` names the channel `mylab` under the `youruser` account, which lives in the GitHub repo `youruser/mip-mylab`.
 
 You can also use fully qualified package names, which include the channel:
 
 ```matlab
 mip install youruser/mylab/my_package
 mip load youruser/mylab/my_package
+```
+
+### Personal channels
+
+Many people publish from a single **personal channel** whose name matches their account — the repo `youruser/mip-youruser`. As a shorthand, a bare account name expands to this personal channel, so you can drop the repeated segment:
+
+```matlab
+mip install --channel youruser my_package   % same as --channel youruser/youruser
+mip install youruser/my_package             % same as youruser/youruser/my_package
 ```
 
 ### Subscribing to a channel

@@ -39,6 +39,8 @@ dependencies: []
 paths:
   - path: "."
 
+test_script: test_my_package.m
+
 builds:
   - architectures: [any]
 ```
@@ -94,6 +96,24 @@ An editable install registers the source directory path rather than copying file
 A non-editable install, by contrast, copies your source into the package store, strips any pre-existing MEX binaries, and runs your `compile_script` once. Future edits to your original directory have no effect until you run `mip install` again.
 
 Editable installs re-run `compile_script` on every `mip update`. Pass `--no-compile` to skip it for one update, or at install time to skip the initial compile.
+
+## Testing your package
+
+`mip init` creates a blank `test_<name>.m` script and points the `test_script` field of your `mip.yaml` at it. Fill that script with whatever checks your package needs — by convention it should error if something is wrong and print `SUCCESS` when everything passes:
+
+```matlab
+% test_my_package.m
+assert(isequal(my_function(2), 4), 'my_function(2) should return 4');
+disp('SUCCESS');
+```
+
+Run it any time with:
+
+```matlab
+mip test my_package
+```
+
+`mip test` loads the package first (if it isn't already), then runs its `test_script`; a run that doesn't error counts as a pass. This is the same script a channel runs in CI to verify each build, so keeping it green keeps your package installable everywhere.
 
 ## Dependencies
 

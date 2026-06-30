@@ -15,6 +15,9 @@ mip list --sort-by-name   % Alphabetical
 mip info chebfun          % Local installation details + available versions in the channel
 mip avail                 % Packages available in mip-org/core
 mip avail --channel youruser/mylab
+mip info                  % mip's own version, root directory, and architecture
+mip version               % Just the mip version string
+mip help <command>        % Detailed help for any command
 ```
 
 `mip info` with a bare name shows details for every installation with that name. Pass a fully qualified name (`org/channel/name`) to narrow to one.
@@ -139,15 +142,8 @@ MIP stores installed packages under a single root directory. To relocate the roo
 export MIP_ROOT=/path/to/mip-root
 ```
 
-The directory must already exist and contain a `packages/` subdirectory. To see the current root:
+The directory must already exist and contain a `packages/` subdirectory. To see the current root — along with the mip version and your platform's architecture — run `mip info` with no package name:
 
 ```matlab
-mip root
-```
-
-And to see the URL of a channel's index file:
-
-```matlab
-mip index
-mip index youruser/mylab
+mip info
 ```

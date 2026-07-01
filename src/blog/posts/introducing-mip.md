@@ -14,4 +14,4 @@ For us, mip's killer features are distributing portable pre-built MEX binaries f
 
 Feel free to explore the docs, try it out, and request packages. We'd love to get your feedback!
 
-- Dan and Jeremy (Center for Computational Mathematics, Flatiron Institute)
+\- Dan and Jeremy (Center for Computational Mathematics, Flatiron Institute)

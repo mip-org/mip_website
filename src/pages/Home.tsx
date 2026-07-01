@@ -109,35 +109,41 @@ const features = [
     title: "Simple installation",
     description:
       "Install any MATLAB package from the package index with a single command.",
+    path: "/docs/installing-packages#installing-a-package",
   },
   {
     icon: <Route />,
     title: "Path management",
     description: "Your MATLAB path is managed automatically. No more manually adding paths or running startup scripts.",
+    path: "/docs/installing-packages#loading-a-package",
   },
   {
     icon: <Memory />,
     title: "Pre-compiled MEX binaries",
     description:
       "Packages using MEX include pre-compiled binaries for your architecture. No local compilation required.",
+    path: "/docs/installing-packages#pre-compiled-mex-binaries",
   },
   {
     icon: <AccountTree />,
     title: "Dependency resolution",
     description:
       "Resolve package dependencies automatically. Install, uninstall, load, and unload them in the correct order.",
+    path: "/docs/installing-packages#dependency-resolution",
   },
   {
     icon: <RssFeed />,
     title: "Distributed channels",
     description:
       "Install popular packages from the main channel or create custom channels to distribute your own packages.",
+    path: "/docs/installing-packages#using-other-channels",
   },
   {
     icon: <Terminal />,
     title: "Pure MATLAB",
     description:
       "No external tools or system dependencies required. Works anywhere MATLAB runs.",
+    path: "/docs/installing-mip",
   },
 ];
 
@@ -256,10 +262,15 @@ export default function Home() {
           {features.map((f) => (
             <Grid size={{ xs: 12, sm: 6, md: 4 }} key={f.title}>
               <Paper
+                component={RouterLink}
+                to={f.path}
                 elevation={0}
                 sx={{
+                  display: "block",
                   p: 3,
                   height: "100%",
+                  textDecoration: "none",
+                  color: "inherit",
                   border: `1px solid ${theme.palette.divider}`,
                   transition: "border-color 0.2s",
                   "&:hover": {

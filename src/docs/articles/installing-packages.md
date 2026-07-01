@@ -21,8 +21,6 @@ Install multiple packages at once:
 mip install chebfun finufft
 ```
 
-mip resolves dependencies automatically. If a package depends on other packages, they'll be installed too.
-
 ## Loading a package
 
 Installing a package downloads it but doesn't add it to your MATLAB path. To use it, load it:
@@ -76,7 +74,11 @@ mip unload --all --force  % Unload everything except mip itself
 
 `mip-org/core/mip` is never unloaded — it's the package manager, and stays available for the duration of the MATLAB session.
 
-When you unload a package, any dependencies it pulled in are pruned too, unless another loaded package still needs them.
+## Dependency resolution
+
+mip resolves dependencies automatically. If a package depends on other packages, they're installed too — recursively, and in the right order. The same applies at load time: loading a package loads its dependencies first.
+
+Cleanup is automatic as well. When you uninstall or unload a package, the dependencies it pulled in are removed too, unless another package still needs them. Only automatically-installed dependencies are pruned this way — packages you asked for by name are left alone.
 
 ## Sticky packages
 
@@ -90,7 +92,7 @@ Sticky state lives in the current MATLAB session only — it does **not** persis
 
 ## Using other channels
 
-The default channel is `mip-org/core`, but packages can be hosted on any channel. To install from a different channel:
+The default channel is `mip-org/core`, but packages can be hosted on any channel — anyone can create one to distribute their own packages (see [Hosting a Channel](/docs/hosting-a-channel)). To install from a different channel:
 
 ```matlab
 mip install --channel youruser/mylab my_package
@@ -180,6 +182,12 @@ mip install https://example.com/chebfun-1.0.0-any.mhl
 ```
 
 This is convenient for sharing a prebuilt package offline. To build a `.mhl` from your own package directory, see [Creating a Package](/docs/creating-a-package).
+
+## Pre-compiled MEX binaries
+
+Packages that include MEX (compiled C/C++/Fortran) code are built by the channel's CI for each supported platform — Linux, macOS, and Windows — and published as separate per-architecture builds. `mip install` downloads the build that matches your platform, so no compiler is needed on your machine. Pure-MATLAB packages are published as a single `any` build that works everywhere.
+
+To create a package that ships MEX binaries, see [Building a MEX Package](/docs/building-a-mex-package).
 
 ## Architectures
 

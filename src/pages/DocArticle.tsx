@@ -130,6 +130,18 @@ export default function DocArticle() {
                 remarkPlugins={[remarkGfm]}
                 children={doc.content}
                 components={{
+                  a({ href, children, ...props }) {
+                    // serve .m files as downloads rather than navigating to them
+                    return (
+                      <a
+                        href={href}
+                        {...(href?.endsWith(".m") ? { download: "" } : {})}
+                        {...props}
+                      >
+                        {children}
+                      </a>
+                    );
+                  },
                   h2({ children, ...props }) {
                     return (
                       <h2 id={slugifyHeading(nodeToText(children))} {...props}>

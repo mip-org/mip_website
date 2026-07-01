@@ -5,15 +5,7 @@ summary: Install and load MATLAB packages from the mip package index.
 order: 1
 ---
 
-## Installing mip
-
-To install mip, run this in the MATLAB Command Window:
-
-```matlab
-eval(webread('https://mip.sh/install.txt'))
-```
-
-This adds the `mip` command to your MATLAB path. It works on Linux, macOS, and Windows, and requires no external tools.
+These commands assume the `mip` command is available in MATLAB — if it isn't yet, see [Installing mip](/docs/installing-mip).
 
 ## Installing a package
 

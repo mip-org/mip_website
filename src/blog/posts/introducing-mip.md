@@ -1,24 +1,17 @@
 ---
 title: Introducing mip
-date: 2026-04-03
+date: 2026-07-01
 slug: introducing-mip
-author: Jeremy Magland
+author: Dan Fortunato and Jeremy Magland
 summary: A package manager for MATLAB with automatic dependency resolution, path management, and pre-compiled MEX binaries.
 ---
 
-mip is a package manager for MATLAB. It lets you install and manage MATLAB packages from a central index, with automatic dependency resolution, path management, and pre-compiled MEX binaries.
+After months of planning and development, we are excited to announce the release of version 1.0.0 of mip, a package manager for MATLAB.
 
-To get started, run this in MATLAB:
+Back in November 2025, we had a conversation where we thought: "wouldn't it be nice if we had something like pip or Homebrew for MATLAB?" Initially we imagined building such a tool would be straightforward, but after diving in we discovered that the MATLAB way of doing things presents a unique set of challenges. Through many iterations we realized we needed to mix and match various conventions from the different existing package managers&mdash;`load` from Lmod (similar to import in pip), `pin` from Homebrew, using Github runners to automate package building like Homebrew, channels from conda (similar to taps in Homebrew), editable development installs from pip, and so forth.
 
-```matlab
-eval(webread('https://mip.sh/install.txt'))
-```
+For us, mip's killer features are distributing portable pre-built MEX binaries for Linux, Mac, and Windows (users no longer need a MEX compiler) and managing MATLAB's global path automatically (no more manually adding paths or running startup scripts). But there are many other advantages compared with the usual way of working in MATLAB.
 
-Then install a package:
+Feel free to explore the docs, try it out, and request packages. We'd love to get your feedback!
 
-```matlab
-mip install chebfun
-mip load chebfun
-```
-
-See the [documentation](/docs/installing-packages) for more.
+- Dan and Jeremy (Center for Computational Mathematics, Flatiron Institute)

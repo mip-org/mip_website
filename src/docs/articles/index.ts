@@ -1,6 +1,7 @@
 import { parseFrontmatter } from "../parseFrontmatter";
 import type { Doc } from "../types";
 
+import installingMip from "./installing-mip.md?raw";
 import installingPackages from "./installing-packages.md?raw";
 import managingPackages from "./managing-packages.md?raw";
 import requestingAPackage from "./requesting-a-package.md?raw";
@@ -10,6 +11,7 @@ import buildingAMexPackage from "./building-a-mex-package.md?raw";
 import hostingAChannel from "./hosting-a-channel.md?raw";
 
 export const docs: Doc[] = [
+  parseFrontmatter(installingMip),
   parseFrontmatter(installingPackages),
   parseFrontmatter(managingPackages),
   parseFrontmatter(requestingAPackage),

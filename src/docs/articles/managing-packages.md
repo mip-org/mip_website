@@ -104,7 +104,7 @@ mip uninstall mip-org/core/chebfun
 mip uninstall mip
 ```
 
-This triggers a full uninstall: mip unloads every package, deletes the entire root directory, and removes itself from your saved MATLAB path. You'll be asked to confirm before anything is deleted. To reinstall later, run the install command from the [Installing Packages](/docs/installing-packages) article.
+This triggers a full uninstall: mip unloads every package, deletes the entire root directory, and removes itself from your saved MATLAB path. You'll be asked to confirm before anything is deleted. To reinstall later, see [Installing mip](/docs/installing-mip).
 
 ## Compiling a package
 

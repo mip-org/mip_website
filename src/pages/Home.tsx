@@ -106,7 +106,7 @@ function HeroCommand() {
 const features = [
   {
     icon: <Download />,
-    title: "Simple installation",
+    title: "Simple package installation",
     description:
       "Install any MATLAB package from the package index with a single command.",
     path: "/docs/installing-packages#installing-a-package",

@@ -13,7 +13,7 @@ A channel is just a GitHub repo with a `packages/` folder and a small set of Git
 
 [mip-example](https://github.com/mip-org/mip-example) (a single package) and [mip-hello](https://github.com/mip-org/mip-hello) (a handful of packages showing different source layouts) are both kept current with the build system and make good starting points.
 
-1. Create an empty GitHub repo named `mip-<channel_name>` — for example `mip-mylab`. The name matters: when someone runs `mip install --channel youruser/mylab ...`, mip looks for a repo called `mip-mylab` under your account.
+1. Create an empty **public** GitHub repo named `mip-<channel_name>` — for example `mip-mylab`. It must be public: the build system runs MATLAB on GitHub's CI runners, which is only licensed for public repos, and users install anonymously from the repo's releases and GitHub Pages. The name matters too: when someone runs `mip install --channel youruser/mylab ...`, mip looks for a repo called `mip-mylab` under your account.
 
 2. Copy an example channel into it and point it at your repo:
 
@@ -151,3 +151,5 @@ mip avail --channel youruser/mylab
 ```
 
 Replace `youruser/mylab` with your GitHub username and channel name (the repo name minus the `mip-` prefix).
+
+There is no central registry: mip derives the channel's index URL directly from the name — `youruser/mylab` maps to the GitHub Pages site of `youruser/mip-mylab` — so there is nothing to register anywhere.

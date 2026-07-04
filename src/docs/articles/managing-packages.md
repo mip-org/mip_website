@@ -10,8 +10,8 @@ Once packages are installed, mip provides commands for keeping them current, ins
 ## Listing and inspecting
 
 ```matlab
-mip list                  % All installed packages (most recently loaded first)
-mip list --sort-by-name   % Alphabetical
+mip list                  % Loaded packages (most recent first), then other installed packages
+mip list --sort-by-name   % Sort loaded packages alphabetically
 mip info chebfun          % Local installation details + available versions in the channel
 mip avail                 % Packages available in mip-org/core
 mip avail --channel youruser/mylab
@@ -55,14 +55,14 @@ If the new version of a package has new dependencies, they are installed automat
 
 ### Pinning a package
 
-To protect a package from `mip update --all` — for example, because a newer release broke something you depend on — pin it:
+To hold a package at its current version — for example, because a newer release broke something you depend on — pin it:
 
 ```matlab
 mip pin chebfun
 mip unpin chebfun
 ```
 
-Pinned packages are skipped by `mip update --all` (a "Skipping pinned package" message is printed for each). They are **not** protected from an explicit `mip update chebfun` — naming the package updates it. Passing `--force` also overrides the pin and automatically unpins the package after a successful update.
+Pinned packages are skipped by every form of `mip update` — `--all`, an explicit `mip update chebfun`, and `--force` alike (a "Skipping pinned package" message is printed for each). To update a pinned package, run `mip unpin` on it first.
 
 Pinned packages show up with a `[pinned]` marker in `mip list`. The pin is cleared automatically if you uninstall the package.
 
@@ -114,7 +114,7 @@ If a package's install failed mid-compile, or you want to recompile an editable 
 mip compile my_package
 ```
 
-For non-editable installs, this rebuilds in the installed package directory. For editable installs, it runs the compile script in your source directory. A package must have `compile_script` in its `mip.json` for this to work.
+For non-editable installs, this rebuilds in the installed package directory. For editable installs, it runs the compile script in your source directory. A package must declare a `compile_script` in its `mip.yaml` for this to work.
 
 ## Running a package's tests
 

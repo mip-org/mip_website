@@ -10,6 +10,7 @@ import Docs from "./pages/Docs";
 import DocArticle from "./pages/DocArticle";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
+import About from "./pages/About";
 import { Box } from "@mui/material";
 
 export default function App() {
@@ -34,6 +35,7 @@ export default function App() {
               <Route path="/docs/:slug" element={<DocArticle />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
+              <Route path="/about" element={<About />} />
             </Routes>
           </Box>
           <Footer />

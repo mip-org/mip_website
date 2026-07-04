@@ -6,6 +6,7 @@ import {
   Grid,
   Paper,
   IconButton,
+  Link as MuiLink,
   Divider,
   GlobalStyles,
   useTheme,
@@ -246,7 +247,22 @@ export default function Home() {
             color="text.secondary"
             sx={{ mt: 0.75, fontSize: { xs: "0.85rem", md: "0.95rem" } }}
           >
-            To install, paste that into the MATLAB Command Window.
+            To install, paste that into the MATLAB Command Window.{" "}
+            <MuiLink
+              component={RouterLink}
+              to="/docs/installing-mip"
+              color="inherit"
+              underline="always"
+              sx={{
+                textDecorationColor: theme.palette.divider,
+                "&:hover": {
+                  color: theme.palette.primary.main,
+                  textDecorationColor: theme.palette.primary.main,
+                },
+              }}
+            >
+              Details
+            </MuiLink>
           </Typography>
         </Container>
       </Box>

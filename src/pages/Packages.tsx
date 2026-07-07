@@ -13,6 +13,7 @@ import {
   Alert,
 } from "@mui/material";
 import { OpenInNew, FileDownloadOutlined } from "@mui/icons-material";
+import { Link as RouterLink } from "react-router-dom";
 import CodeBlock from "../components/CodeBlock";
 import type { Package, PackageIndex, DownloadStats } from "../types";
 
@@ -105,17 +106,26 @@ export default function Packages() {
         }}
       >
         <Typography variant="h2">Packages</Typography>
-        <Button
-          variant="outlined"
-          size="small"
-          href="https://github.com/mip-org/mip-core/issues/new?template=request-package.yml"
-          target="_blank"
-          rel="noopener noreferrer"
-          endIcon={<OpenInNew sx={{ fontSize: 14 }} />}
-          sx={{ flexShrink: 0 }}
-        >
-          Request a package
-        </Button>
+        <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap", flexShrink: 0 }}>
+          <Button
+            variant="outlined"
+            size="small"
+            href="https://github.com/mip-org/mip-core/issues/new?template=request-package.yml"
+            target="_blank"
+            rel="noopener noreferrer"
+            endIcon={<OpenInNew sx={{ fontSize: 14 }} />}
+          >
+            Request a package
+          </Button>
+          <Button
+            variant="outlined"
+            size="small"
+            component={RouterLink}
+            to="/docs/hosting-a-channel"
+          >
+            Host your own channel
+          </Button>
+        </Box>
       </Box>
       <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
         {data

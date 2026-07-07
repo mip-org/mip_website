@@ -49,7 +49,7 @@ mip load chebfun --with examples
 mip load chebfun --with examples --with tests
 ```
 
-`--with` can be repeated, and applies only to the package you name — not its dependencies. Like `--addpath`, it's transient: the next plain `mip load` reverts to the package's default paths.
+`--with` can be repeated, and applies only to the package you name — not its dependencies. Like `--addpath`, it's transient: the extra paths last until the package is unloaded, and aren't restored when it's loaded again.
 
 ### Adding or removing extra paths at load time
 
@@ -62,7 +62,7 @@ mip load my_package --addpath examples --rmpath src/legacy
 
 `<relpath>` is resolved relative to the package's source directory. Both flags can be repeated to specify multiple paths in one call, and they apply only to the single package you're loading — transitively-loaded dependencies are unaffected.
 
-These adjustments are **transient**: they apply for this load only. The next `mip load` without the flags reverts to the package's default paths.
+These adjustments are **transient**: they last until the package is unloaded, and aren't saved — once the package is unloaded, the next `mip load` is back to the package's default paths.
 
 ## Unloading
 

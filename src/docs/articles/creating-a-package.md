@@ -16,7 +16,7 @@ cd /path/to/my_package
 mip init
 ```
 
-This walks the directory, adds any folders that contain MATLAB code to `paths`, creates a blank `test_my_package.m` placeholder, and writes a `mip.yaml` ready for you to fill in. The package name defaults to the directory's basename; override it with `--name` if needed:
+This walks the directory, adds any folders that contain MATLAB code to `paths`, creates a blank `test_my_package.m` placeholder, and writes a `mip.yaml` ready for you to fill in. The package name defaults to the directory's basename — or, if the directory is a git clone, to the repository's name, with the `repository` field filled in from the git remote. Override the name with `--name` if needed:
 
 ```matlab
 mip init /path/to/my_package --name my_package
@@ -91,9 +91,9 @@ During development, you don't want to reinstall every time you change a file. Us
 mip install -e ./my_package
 ```
 
-An editable install registers the source directory path rather than copying files. MATLAB sees your original files directly, so edits take effect on the next `mip load` — no reinstall needed. It's like `pip install -e` in Python.
+An editable install registers the source directory path rather than copying files. MATLAB sees your original files directly, so edits take effect immediately — no reinstall needed. It's like `pip install -e` in Python.
 
-A non-editable install, by contrast, copies your source into the package store, strips any pre-existing MEX binaries, and runs your `compile_script` once. Future edits to your original directory have no effect until you run `mip install` again.
+A non-editable install, by contrast, copies your source into the package store, strips any pre-existing MEX binaries, and runs your `compile_script` once. Future edits to your original directory have no effect until you reinstall — either with `mip install` again or with `mip update`, which reinstalls a local package from its source directory.
 
 Editable installs re-run `compile_script` on every `mip update`. Pass `--no-compile` to skip it for one update, or at install time to skip the initial compile.
 
@@ -122,11 +122,11 @@ If your package depends on other mip packages, list them:
 dependencies: ["chebfun", "finufft"]
 ```
 
-**Bare names in `dependencies` always resolve to the `mip-org/core` channel.** If your package needs a dependency from a different channel, use the fully qualified name:
+**Bare names in `dependencies` resolve to the package's own channel when it provides them, and to `mip-org/core` otherwise.** For local packages, bare names always mean `mip-org/core`. To pull a dependency from an unrelated channel, use the fully qualified name:
 
 ```yaml
 dependencies:
-  - chebfun                       # mip-org/core/chebfun
+  - chebfun                       # own channel if it has it, else mip-org/core
   - youruser/mylab/some_package   # explicit channel
 ```
 

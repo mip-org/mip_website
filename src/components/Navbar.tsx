@@ -29,6 +29,7 @@ export default function Navbar() {
     { label: "Packages", path: "/packages" },
     { label: "Docs", path: "/docs" },
     { label: "Blog", path: "/blog" },
+    { label: "About", path: "/about" },
   ];
 
   return (

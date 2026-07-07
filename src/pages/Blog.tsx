@@ -45,7 +45,7 @@ export default function Blog() {
               })}
             </Typography>
             <Typography variant="body1" color="text.secondary">
-              {post.content.split(/\n\s*\n/)[0]}
+              {post.summary}
             </Typography>
           </Paper>
         ))}

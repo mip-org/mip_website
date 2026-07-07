@@ -1,9 +1,9 @@
 ---
 title: Introducing mip
-date: 2026-07-01
+date: 2026-07-07
 slug: introducing-mip
 author: Dan Fortunato and Jeremy Magland
-summary: A package manager for MATLAB with automatic dependency resolution, path management, and pre-compiled MEX binaries.
+summary: We are excited to announce the release of version 1.0.0 of mip.
 ---
 
 After months of planning and development, we are excited to announce the release of version 1.0.0 of mip, a package manager for MATLAB.

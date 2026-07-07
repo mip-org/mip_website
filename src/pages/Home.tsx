@@ -247,21 +247,30 @@ export default function Home() {
             color="text.secondary"
             sx={{ mt: 0.75, fontSize: { xs: "0.85rem", md: "0.95rem" } }}
           >
-            To install, paste that into the MATLAB Command Window.{" "}
             <MuiLink
               component={RouterLink}
               to="/docs/installing-mip"
               color="inherit"
-              underline="always"
+              underline="none"
               sx={{
-                textDecorationColor: theme.palette.divider,
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 0.25,
+                verticalAlign: "bottom",
                 "&:hover": {
                   color: theme.palette.primary.main,
-                  textDecorationColor: theme.palette.primary.main,
+                },
+                "& svg": {
+                  fontSize: "1em",
+                  transition: "transform 0.2s",
+                },
+                "&:hover svg": {
+                  transform: "translateX(2px)",
                 },
               }}
             >
-              Details
+              To install, paste that into the MATLAB Command Window
+              <ArrowForward />
             </MuiLink>
           </Typography>
         </Container>

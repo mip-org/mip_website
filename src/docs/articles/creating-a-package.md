@@ -45,9 +45,17 @@ builds:
   - architectures: [any]
 ```
 
-`mip init` generates this shape with the string fields (`description`, `version`, `license`, `homepage`, and `repository`) left blank, ready for you to fill in.
+`mip init` generates this shape with the string fields (`description`, `version`, `license`, `homepage`, and `repository`) left blank, ready for you to fill in. Package names must be lowercase — letters, digits, hyphens, and underscores, starting and ending with a letter or digit.
 
-The `paths` entries tell mip which directories to add to the MATLAB path when the package is loaded. Only the listed directories are added — subdirectories are not added automatically. `architectures: [any]` means the package is pure MATLAB with no compiled code.
+The `paths` entries tell mip which directories to add to the MATLAB path when the package is loaded. Only the listed directories are added — subdirectories are not added automatically, unless an entry opts in with `recursive: true`:
+
+```yaml
+paths:
+  - path: "src"
+    recursive: true
+```
+
+`architectures: [any]` means the package is pure MATLAB with no compiled code.
 
 ### Optional path groups
 

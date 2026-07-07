@@ -96,6 +96,8 @@ Compared to a pure-MATLAB package:
 
 mip strips any pre-compiled MEX binaries from the source before building. This ensures every binary is built from source in CI, so users get consistent, trustworthy builds for their platform.
 
+If you host the package on a channel, also declare a `test_script` (see [Creating a Package](/docs/creating-a-package)). The channel's CI runs it on a machine with no compilers installed and fails the build unless the script calls every MEX function the package ships — proof that the binaries are self-contained and portable. Make sure your test script exercises each MEX entry point.
+
 ## Using the package
 
 Install and load the package in MATLAB:

@@ -3,6 +3,7 @@ export interface DocMeta {
   slug: string;
   summary: string;
   order: number;
+  section?: string;
 }
 
 export interface Doc extends DocMeta {

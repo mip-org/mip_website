@@ -37,7 +37,7 @@ One command creates both kinds; the argument decides which:
 ```matlab
 mip env create            % local: ./.mip in the current directory
 mip env create myenv      % named: kept in a central store inside your mip root
-mip env create ~/envs/e1  % local, at an explicit path
+mip env create /path/to/e1/.git  % local, at an explicit path
 ```
 
 - **Named environments** (a bare word) live in a central store and can be activated by name from anywhere — handy for reusable setups like `teaching` or `dev`. mip keeps track of them: `mip env list` shows them all.
@@ -52,7 +52,7 @@ Creation is deliberately strict: mip will not turn an existing non-empty directo
 ```matlab
 mip activate myenv        % a named environment
 mip activate              % ./.mip in the current directory
-mip activate ~/envs/e1    % an environment at a path
+mip activate /path/to/e1/.git    % an environment at a path
 ```
 
 Activation points your MATLAB session at the environment:

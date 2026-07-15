@@ -19,6 +19,7 @@ export function parseFrontmatter(raw: string): Doc {
     slug: meta.slug ?? "",
     summary: meta.summary ?? "",
     order: parseInt(meta.order ?? "0", 10),
+    section: meta.section,
     content: match[2].trim(),
   };
 }

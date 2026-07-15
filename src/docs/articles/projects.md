@@ -8,15 +8,15 @@ section: coming-soon
 
 > **Coming soon.** Projects are not yet available in the released version of mip. You can try them today via the preview build from the labs channel — see [Trying it out](#trying-it-out) below. The design is specified in [MEP 9](https://github.com/mip-org/meps/blob/main/meps/mep-0009.md).
 
-With [environments](/docs/environments), you manage a package set by hand: whatever you `mip install` is what's there. A **project** flips that around — you *declare* the packages you want in `mip.yaml`, and mip makes the environment match, recording the exact resolved versions in a lockfile (`mip.lock`) so any machine rebuilds the identical environment: your collaborator's, a CI runner's, or yours next year. If you know `uv` from the Python world, this is that workflow for MATLAB.
+With [environments](/docs/environments), you manage a package set by hand: whatever you `mip install` is what's there. A **project** flips that around — you *declare* the packages you want in `mip.yaml`, and mip makes the environment match, recording the exact resolved versions in a lockfile (`mip.lock`) so any machine rebuilds the identical environment: your collaborator's, a CI runner's, or yours next year.
 
 ## Quick start
 
 ```matlab
 cd ~/work/myproject
-mip project init          % create a mip.yaml project spec
-mip project add chebfun   % declare it, lock it, install it
-mip activate              % work inside the project's environment
+mip project init             % create a mip.yaml project spec
+mip project add chebfun      % declare it, lock it, install it
+mip project run analysis.m   % run your code in the project's environment
 ```
 
 Then, from a fresh clone on any machine:
@@ -88,6 +88,18 @@ mip project run "x = solve(3)"    % an expression
 
 `run` makes sure the project is locked and synced, activates its environment *for the duration of the run only*, executes the target, and restores your session — path, loaded packages, everything. In CI, add `--locked` to fail instead of silently re-resolving when `mip.yaml` and `mip.lock` are out of step.
 
+## Working interactively
+
+`mip project run` is the recommended way to execute code against a project — it's a one-shot call that leaves no trace on your session. If you'd rather work at the MATLAB prompt for a while, activate the project's environment instead:
+
+```matlab
+mip activate       % activate the nearest project's environment
+% ... work interactively ...
+mip deactivate     % back to your normal setup
+```
+
+This is the same `mip activate` / `mip deactivate` used for hand-managed [environments](/docs/environments) — with no argument, it finds the nearest project (searching upward, like `mip project` commands do) and activates its `.mip`. Unlike `run`, the activation persists until you deactivate, so reach for it when you're exploring or iterating interactively, not for scripts or CI.
+
 ## Checking health
 
 ```matlab
@@ -109,10 +121,9 @@ mip project lock             % pin the versions
 
 ## Good to know
 
-- **The lockfile is the switch.** A directory with a `mip.lock` is in project ("uv") mode; without one, environments stay fully hand-managed as described in [Environments](/docs/environments). `mip project lock`, `add`, and `run` each create the lock; deleting it opts back out.
+- **The lockfile is the switch.** A directory with a `mip.lock` is in project mode; without one, environments stay fully hand-managed as described in [Environments](/docs/environments). `mip project lock`, `add`, and `run` each create the lock; deleting it opts back out.
 - **`mip install` still works** inside a project — but its additions are not recorded in the lock, and the next `mip project sync` removes them. Use `mip project add` for anything you want to keep.
 - **Project commands find the project for you.** They act on the nearest `mip.yaml`, searching upward from your current directory (like git finds `.git`), and announce which project they're using. Plain commands like `mip install` never search — they always target the active environment.
-- **`mip activate`** with no argument also finds the nearest project and activates its `.mip`.
 - **Extra channels** go in the spec: a `channels:` list in `mip.yaml` tells the resolver where to look beyond `mip-org/core`, so a fresh clone needs no channel setup.
 
 ## Trying it out

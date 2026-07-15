@@ -124,6 +124,22 @@ export default function DocArticle() {
                     p: 0,
                   },
                 },
+                "& table": {
+                  width: "100%",
+                  borderCollapse: "collapse",
+                  fontSize: "0.9rem",
+                },
+                "& th, & td": {
+                  textAlign: "left",
+                  verticalAlign: "top",
+                  px: 1.5,
+                  py: 1,
+                  borderBottom: `1px solid ${theme.palette.divider}`,
+                },
+                "& th": {
+                  fontWeight: 600,
+                  borderBottom: `2px solid ${theme.palette.divider}`,
+                },
               }}
             >
               <Markdown
@@ -184,6 +200,13 @@ export default function DocArticle() {
                     );
                   },
                   pre: MarkdownPre,
+                  table({ children, ...props }) {
+                    return (
+                      <div style={{ overflowX: "auto", marginBottom: 16 }}>
+                        <table {...props}>{children}</table>
+                      </div>
+                    );
+                  },
                 }}
               />
             </Box>

@@ -95,7 +95,7 @@ mip env delete myenv      % delete a named environment (asks for confirmation)
 ## Good to know
 
 - **mip itself stays put.** Activating an environment never moves or reinstalls mip; environments don't need to contain it.
-- **Environments are hand-managed.** What you install is what's there — there is no lockfile or spec file. A declarative, reproducible workflow on top of environments is planned separately ([MEP 9](https://github.com/mip-org/meps/blob/main/meps/mep-0009.md)).
+- **Environments are hand-managed.** What you install is what's there — there is no lockfile or spec file. For a declarative, reproducible workflow on top of environments, see [Projects](/docs/projects).
 - **Programs you launch inherit the environment.** `system(...)` calls and `matlab -batch` runs started from an activated session see the same environment.
 - **Scripts and CI** don't need activation: setting the `MIP_ROOT` environment variable before starting MATLAB points mip at any root directly.
 - **Multiple MATLAB sessions** can activate the same environment; each session keeps its own set of loaded packages.

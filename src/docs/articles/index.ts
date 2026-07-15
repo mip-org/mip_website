@@ -10,6 +10,7 @@ import buildingAMexPackage from "./building-a-mex-package.md?raw";
 // import buildingAWasmPackage from "./building-a-wasm-package.md?raw";
 import hostingAChannel from "./hosting-a-channel.md?raw";
 import environments from "./environments.md?raw";
+import projects from "./projects.md?raw";
 
 export const docs: Doc[] = [
   parseFrontmatter(installingMip),
@@ -20,5 +21,6 @@ export const docs: Doc[] = [
   parseFrontmatter(buildingAMexPackage),
   parseFrontmatter(hostingAChannel),
   parseFrontmatter(environments),
+  parseFrontmatter(projects),
   // parseFrontmatter(buildingAWasmPackage),
 ].sort((a, b) => a.order - b.order);

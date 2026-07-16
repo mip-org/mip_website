@@ -133,8 +133,9 @@ export default function PackageDetail() {
   const builds = [...variants].sort(compareBuilds);
 
   const pageUrl = `${SITE_URL}/packages/${pkg.name}`;
-  const badgeSnippet = `[![Install with mip](${BADGE_URL})](${pageUrl})`;
-  const linkSnippet = `[Install with mip](${pageUrl})`;
+  const installFence = `\`\`\`matlab\nmip install ${pkg.name}\nmip load ${pkg.name}\n\`\`\``;
+  const badgeSnippet = `[![Install with mip](${BADGE_URL})](${pageUrl})\n\n${installFence}`;
+  const linkSnippet = `[Install with mip](${pageUrl}):\n\n${installFence}`;
 
   return (
     <Container maxWidth="md" sx={{ py: 6 }}>

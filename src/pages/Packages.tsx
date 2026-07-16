@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useMemo, useState } from "react";
 import {
   Box,
   Container,
@@ -15,104 +15,29 @@ import {
 import { OpenInNew, FileDownloadOutlined } from "@mui/icons-material";
 import { Link as RouterLink } from "react-router-dom";
 import CodeBlock from "../components/CodeBlock";
-import type { Package, PackageIndex, DownloadStats } from "../types";
-
-const INDEX_URL =
-  "https://mip-org.github.io/mip-core/index.json";
-
-// Lifetime download counts, published to the channel repo's `stats` branch by
-// the daily download-stats workflow. Absent until that branch exists, so a
-// failed fetch is non-fatal — the page just renders without counts.
-const STATS_URL =
-  "https://raw.githubusercontent.com/mip-org/mip-core/stats/download-stats.json";
-
-// A version is "numeric" if it's a dot-separated sequence of integers (e.g.
-// "1.0.0", "0.7"). Branch-name versions like "main" or "numbl" are not.
-function isNumericVersion(version: string): boolean {
-  return /^\d+(\.\d+)*$/.test(version);
-}
-
-// Compare two numeric versions component-wise, missing components treated as 0
-// (so "1.2" == "1.2.0"). Returns >0 when a is higher than b.
-function compareNumericVersions(a: string, b: string): number {
-  const pa = a.split(".").map(Number);
-  const pb = b.split(".").map(Number);
-  const len = Math.max(pa.length, pb.length);
-  for (let i = 0; i < len; i++) {
-    const diff = (pa[i] ?? 0) - (pb[i] ?? 0);
-    if (diff !== 0) return diff;
-  }
-  return 0;
-}
-
-// Of a package's variants, pick the version to display: the highest numeric
-// version if any exist, otherwise fall back to the first variant's version
-// (which may be a branch name like "main" or "unspecified").
-function pickDisplayVersion(variants: Package[]): string {
-  const numeric = variants
-    .map((v) => v.version)
-    .filter(isNumericVersion)
-    .sort(compareNumericVersions);
-  return numeric.length > 0 ? numeric[numeric.length - 1] : variants[0].version;
-}
-
-function deduplicatePackages(packages: Package[]): Package[] {
-  // Group by name, keeping all architectures
-  const grouped = new Map<string, Package[]>();
-  for (const pkg of packages) {
-    const existing = grouped.get(pkg.name) || [];
-    existing.push(pkg);
-    grouped.set(pkg.name, existing);
-  }
-  // Return one entry per unique name, merging architecture info and showing the
-  // highest numeric version rather than whichever variant happens to be first.
-  return Array.from(grouped.values()).map((variants) => ({
-    ...variants[0],
-    version: pickDisplayVersion(variants),
-    architecture: [...new Set(variants.map((v) => v.architecture))].join(", "),
-  }));
-}
+import {
+  usePackageIndex,
+  useDownloadStats,
+  aggregateDownloadsByTag,
+  deduplicatePackages,
+  releaseTag,
+} from "../packageIndex";
 
 export default function Packages() {
   const theme = useTheme();
-  const [data, setData] = useState<PackageIndex | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [stats, setStats] = useState<DownloadStats | null>(null);
+  const { data, error } = usePackageIndex();
+  const stats = useDownloadStats();
   const [search, setSearch] = useState("");
-
-  useEffect(() => {
-    fetch(INDEX_URL)
-      .then((r) => {
-        if (!r.ok) throw new Error(`HTTP ${r.status}`);
-        return r.json();
-      })
-      .then(setData)
-      .catch((e) => setError(e.message));
-  }, []);
-
-  useEffect(() => {
-    fetch(STATS_URL)
-      .then((r) => (r.ok ? r.json() : null))
-      .then(setStats)
-      .catch(() => setStats(null));
-  }, []);
 
   const packages = useMemo(
     () => (data ? deduplicatePackages(data.packages) : []),
     [data]
   );
 
-  // Aggregate lifetime downloads over all architectures of each (package,
-  // release), keyed by the "<name>-<version>" release tag.
-  const downloadsByTag = useMemo(() => {
-    const totals = new Map<string, number>();
-    if (!stats) return totals;
-    for (const [key, asset] of Object.entries(stats.assets)) {
-      const tag = key.split("/")[0];
-      totals.set(tag, (totals.get(tag) ?? 0) + asset.lifetime);
-    }
-    return totals;
-  }, [stats]);
+  const downloadsByTag = useMemo(
+    () => aggregateDownloadsByTag(stats),
+    [stats]
+  );
 
   const filtered = useMemo(() => {
     if (!search) return packages;
@@ -142,10 +67,8 @@ export default function Packages() {
           <Button
             variant="outlined"
             size="small"
-            href="https://github.com/mip-org/mip-core/issues/new?template=request-package.yml"
-            target="_blank"
-            rel="noopener noreferrer"
-            endIcon={<OpenInNew sx={{ fontSize: 14 }} />}
+            component={RouterLink}
+            to="/docs/requesting-a-package"
           >
             Request a package
           </Button>
@@ -191,7 +114,7 @@ export default function Packages() {
       {filtered.length > 0 && (
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           {filtered.map((pkg) => {
-            const downloads = downloadsByTag.get(`${pkg.name}-${pkg.version}`);
+            const downloads = downloadsByTag.get(releaseTag(pkg));
             return (
             <Paper
               key={`${pkg.name}-${pkg.architecture}`}
@@ -215,15 +138,21 @@ export default function Packages() {
               >
                 <Box>
                   <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, flexWrap: "wrap" }}>
-                    <Typography
-                      variant="h4"
-                      sx={{
-                        fontFamily: '"Meslo LG", monospace',
-                        color: theme.palette.primary.main,
-                      }}
+                    <MuiLink
+                      component={RouterLink}
+                      to={`/packages/${pkg.name}`}
+                      underline="hover"
                     >
-                      {pkg.name}
-                    </Typography>
+                      <Typography
+                        variant="h4"
+                        sx={{
+                          fontFamily: '"Meslo LG", monospace',
+                          color: theme.palette.primary.main,
+                        }}
+                      >
+                        {pkg.name}
+                      </Typography>
+                    </MuiLink>
                     {pkg.version !== "unspecified" && (
                       <Chip
                         label={pkg.version}
@@ -276,6 +205,13 @@ export default function Packages() {
                     {pkg.license}
                   </Typography>
                 )}
+                <MuiLink
+                  component={RouterLink}
+                  to={`/packages/${pkg.name}`}
+                  variant="caption"
+                >
+                  Install &amp; details
+                </MuiLink>
                 {pkg.homepage && (
                   <MuiLink
                     href={pkg.homepage}

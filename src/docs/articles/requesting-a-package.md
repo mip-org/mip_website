@@ -36,7 +36,7 @@ progresses.
 
 ### Without a GitHub account
 
-[Fill out the request form](https://forms.gle/REPLACE-WITH-FORM-LINK) — no
+[Fill out the request form](https://docs.google.com/forms/d/e/1FAIpQLSc3m9qjzRycb7geCR-OVZLvWnDBlCqdOeuf_FHWnxSmjRcVWQ/viewform) — no
 account needed. Leave an email address if you'd like to hear when the package
 is available.
 

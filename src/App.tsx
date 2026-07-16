@@ -6,6 +6,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import Analytics from "./components/Analytics";
 import Home from "./pages/Home";
 import Packages from "./pages/Packages";
+import PackageDetail from "./pages/PackageDetail";
 import Docs from "./pages/Docs";
 import DocArticle from "./pages/DocArticle";
 import Blog from "./pages/Blog";
@@ -31,6 +32,7 @@ export default function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/packages" element={<Packages />} />
+              <Route path="/packages/:name" element={<PackageDetail />} />
               <Route path="/docs" element={<Docs />} />
               <Route path="/docs/:slug" element={<DocArticle />} />
               <Route path="/blog" element={<Blog />} />

@@ -22,3 +22,18 @@ install_mip
 ```
 
 Once installed, `mip help` lists the available commands. To update mip itself later, run `mip update mip`.
+
+## Non-interactive installation (CI)
+
+Under `matlab -batch`, where prompting is not possible, the script skips the
+prompt and installs to the default location — so CI can install mip in one
+step:
+
+```bash
+matlab -batch "eval(webread('https://mip.sh/install.txt'))"
+```
+
+The install is idempotent: if mip is already installed, the script reports
+that and exits. To choose a different install location, set the
+`MIP_INSTALL_DIR` environment variable before starting MATLAB (this skips the
+prompt in interactive sessions too).

@@ -13,11 +13,19 @@ fprintf(['This script will:\n' ...
     '- Install it to a specified directory.\n' ...
     '- Save mip to your MATLAB path for future sessions.\n']);
 
-% Prompt the user for custom mip location (default: <userpath>/mip)
-if ispc || isempty(getenv('HOME'))
-    mip_install___input = input(strrep(sprintf('\nEnter install location for mip (%s): ', fullfile(userpath, 'mip')), '\', '\\'), 's');
-else
-    mip_install___input = input(strrep(sprintf('\nEnter install location for mip (%s): ', replace(fullfile(userpath, 'mip'), getenv('HOME'), '~')), '\', '\\'), 's');
+% Non-interactive installs: the MIP_INSTALL_DIR environment variable, when
+% set, selects the install location without prompting. Under matlab -batch,
+% where user input is unavailable, the prompt is also skipped and the
+% default location is used.
+mip_install___input = getenv('MIP_INSTALL_DIR');
+mip_install___batch = exist('batchStartupOptionUsed', 'builtin') ~= 0 && batchStartupOptionUsed;
+if isempty(mip_install___input) && ~mip_install___batch
+    % Prompt the user for custom mip location (default: <userpath>/mip)
+    if ispc || isempty(getenv('HOME'))
+        mip_install___input = input(strrep(sprintf('\nEnter install location for mip (%s): ', fullfile(userpath, 'mip')), '\', '\\'), 's');
+    else
+        mip_install___input = input(strrep(sprintf('\nEnter install location for mip (%s): ', replace(fullfile(userpath, 'mip'), getenv('HOME'), '~')), '\', '\\'), 's');
+    end
 end
 if isempty(mip_install___input)
     mip_install___mipdir = fullfile(userpath, 'mip');
@@ -31,9 +39,14 @@ else
     mip_install___mipdirpretty = replace(mip_install___mipdir, getenv('HOME'), '~');
 end
 
-% If the directory already exists, inform the user and abort.
+% If the directory already exists, inform the user and abort. In batch mode
+% abort with an error, so that CI does not carry on without mip installed.
 if isfolder(mip_install___mipdir)
     fprintf('Directory ''%s'' already exists. Installation aborted.\n', mip_install___mipdirpretty);
+    if mip_install___batch
+        clear mip_install___*
+        error('mip:install:dirExists', 'mip install directory already exists.');
+    end
     clear mip_install___*
     return
 end

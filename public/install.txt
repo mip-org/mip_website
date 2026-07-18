@@ -43,10 +43,11 @@ end
 % abort with an error, so that CI does not carry on without mip installed.
 if isfolder(mip_install___mipdir)
     fprintf('Directory ''%s'' already exists. Installation aborted.\n', mip_install___mipdirpretty);
-    clear mip_install___*
     if mip_install___batch
+        clear mip_install___*
         error('mip:install:dirExists', 'mip install directory already exists.');
     end
+    clear mip_install___*
     return
 end
 

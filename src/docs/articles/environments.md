@@ -102,16 +102,17 @@ mip env delete myenv      % delete a named environment (asks for confirmation)
 
 ## Trying it out
 
-Until the feature ships in a release, you can preview it by installing the MEP 8 build of mip from the labs channel and loading it in place of your installed mip:
+The implementation lives on the [`mep-0008-b` branch](https://github.com/mip-org/mip/tree/mep-0008-b) of mip, and the labs channel publishes a preview build of it. Until the feature ships in a release, you can preview it by installing that build and loading it in place of your installed mip:
 
 ```matlab
-mip install mip-org/labs/mip@mep-0008
+mip install mip-org/labs/mip@mep-0008-b
 mip load mip-org/labs/mip
 ```
 
-From that point, `mip` commands in your session use the preview build, and everything described above is available. Your regular mip installation is untouched, and the preview stays active even across `mip activate` / `mip deactivate`. To go back to your released version:
+From that point, `mip` commands in your session use the preview build, and everything described above is available. Your regular mip installation is untouched, and the preview stays loaded across `mip activate` / `mip deactivate` — mip never unloads the mip that is running. To go back to your released version:
 
 ```matlab
+mip deactivate            % if an environment is active
 mip unload mip-org/labs/mip
 ```
 

@@ -1,4 +1,4 @@
-# mip-org.github.io
+# mip website
 
 Source for the mip website, a Vite + React + TypeScript single-page app.
 

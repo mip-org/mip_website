@@ -150,7 +150,37 @@ If you install a non-numeric version like `main`, `mip update` will keep you on 
 
 ## Installing from a zip URL or the File Exchange
 
-Installing code that isn't in any mip channel — a zip archive on the web, or a MATLAB File Exchange entry — by passing its URL to `mip install` is coming in the next release. See [Installing from a URL](/docs/installing-from-a-url).
+A lot of MATLAB code isn't published in any mip channel, but is available on the [File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/) or as a zip archive on GitHub or elsewhere. Install it by passing the URL directly to `mip install`.
+
+From a File Exchange page (copy the landing-page URL from your browser):
+
+```matlab
+mip install https://www.mathworks.com/matlabcentral/fileexchange/23629-export_fig
+```
+
+From a remote `.zip` archive — any `https://` URL whose path ends in `.zip`, such as a GitHub source archive:
+
+```matlab
+mip install https://github.com/someone/repo/archive/refs/heads/main.zip
+```
+
+mip downloads and extracts the archive, generates a `mip.yaml` via `mip init` if one isn't included, and suggests a package name derived from the URL:
+
+```
+Package name [export_fig]:
+```
+
+Press Enter to accept the suggestion, or type a different name. Pass `--name` to set it up front and skip the prompt (also needed in non-interactive settings like `matlab -batch`):
+
+```matlab
+mip install https://www.mathworks.com/matlabcentral/fileexchange/23629-export_fig --name export_fig
+```
+
+A few things to know:
+
+- The URL must use `https://` — plain `http://` is refused.
+- File Exchange entries must be distributed as a zip; MATLAB Toolbox (`.mltbx`) entries aren't supported.
+- URL-installed packages can't be updated automatically — `mip update` skips them, since the original archive isn't preserved. To pull a newer version, run the same `mip install <url>` again (uninstalling first if needed).
 
 ## Installing from a `.mhl` file
 

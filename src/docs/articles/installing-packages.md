@@ -148,7 +148,7 @@ This is a request, not a pin — mip installs that version if it exists in the c
 
 If you install a non-numeric version like `main`, `mip update` will keep you on that track rather than silently switching you to a numeric release that later appears alongside it. To switch tracks, run `mip install` again with an explicit `@version`.
 
-## Installing from a zip URL or the File Exchange
+## Installing from a File Exchange or zip URL
 
 A lot of MATLAB code isn't published in any mip channel, but is available on the [File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/) or as a zip archive on GitHub or elsewhere. Install it by passing the URL directly to `mip install`.
 
@@ -173,7 +173,7 @@ Package name [export_fig]:
 Press Enter to accept the suggestion, or type a different name. Pass `--name` to set it up front and skip the prompt (also needed in non-interactive settings like `matlab -batch`):
 
 ```matlab
-mip install https://www.mathworks.com/matlabcentral/fileexchange/23629-export_fig --name export_fig
+mip install --name export_fig https://www.mathworks.com/matlabcentral/fileexchange/23629-export_fig
 ```
 
 A few things to know:

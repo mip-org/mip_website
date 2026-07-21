@@ -12,7 +12,6 @@ import hostingAChannel from "./hosting-a-channel.md?raw";
 import forDevelopers from "./for-developers.md?raw";
 import environments from "./environments.md?raw";
 import projects from "./projects.md?raw";
-import installingFromAUrl from "./installing-from-a-url.md?raw";
 
 export const docs: Doc[] = [
   parseFrontmatter(installingMip),
@@ -25,6 +24,5 @@ export const docs: Doc[] = [
   parseFrontmatter(forDevelopers),
   parseFrontmatter(environments),
   parseFrontmatter(projects),
-  parseFrontmatter(installingFromAUrl),
   // parseFrontmatter(buildingAWasmPackage),
 ].sort((a, b) => a.order - b.order);

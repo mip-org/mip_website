@@ -39,114 +39,134 @@ else
     mip_install___mipdirpretty = replace(mip_install___mipdir, getenv('HOME'), '~');
 end
 
-% If the directory already exists, inform the user and abort. In batch mode
-% abort with an error, so that CI does not carry on without mip installed.
-if isfolder(mip_install___mipdir)
-    fprintf('Directory ''%s'' already exists. Installation aborted.\n', mip_install___mipdirpretty);
-    if mip_install___batch
+mip_install___mippackagedir = fullfile(mip_install___mipdir, 'packages', 'gh', 'mip-org', 'core', 'mip');
+mip_install___mipsourcedir = fullfile(mip_install___mippackagedir, 'mip');
+
+% If the install directory already exists, adopt the mip that is already there
+% instead of installing a second copy. Being absent from the path does not mean
+% mip is not installed: the saved path lives in <matlabroot>/toolbox/local/pathdef.m,
+% which belongs to one MATLAB installation, while mip is installed under the
+% user's home directory. Installing a new MATLAB release, or running on a
+% machine whose MATLAB comes and goes (a CI runner with its own MATLAB), leaves
+% the installation in place with nothing on the path pointing at it. Adopting
+% means adding it back to the path, which is all a fresh install does once the
+% files are unpacked.
+mip_install___adopt = isfolder(mip_install___mipdir);
+if mip_install___adopt && ~isfile(fullfile(mip_install___mipsourcedir, 'mip.m'))
+    % The directory is in the way but holds no mip to adopt. Refuse rather than
+    % unpacking into it, and rather than putting a directory with no mip.m on
+    % the path (which would fail later as an undefined `mip` function).
+    fprintf('Directory ''%s'' already exists but does not contain a mip installation.\n', mip_install___mipdirpretty);
+    fprintf('Remove it, or set the MIP_INSTALL_DIR environment variable to another location, and try again.\n');
+    clear mip_install___*
+    error('mip:install:dirExists', ...
+          'mip install directory already exists but contains no mip installation.');
+end
+
+if mip_install___adopt
+    % The banner above promised a download. Say plainly that there was none, so
+    % it is clear no second copy was installed over the existing one.
+    fprintf('Found an existing mip installation in ''%s''.\n', mip_install___mipdirpretty);
+    fprintf('Nothing was downloaded; that installation will be used.\n');
+end
+
+if ~mip_install___adopt
+    % Find all versions of mip available in the package index
+    try
+        mip_install___package_index = webread('https://mip-org.github.io/mip-core/index.json');
+    catch
         clear mip_install___*
-        error('mip:install:dirExists', 'mip install directory already exists.');
+        error('Failed to download mip. Installation aborted.');
     end
-    clear mip_install___*
-    return
-end
-
-% Find all versions of mip available in the package index
-try
-    mip_install___package_index = webread('https://mip-org.github.io/mip-core/index.json');
-catch
-    clear mip_install___*
-    error('Failed to download mip. Installation aborted.');
-end
-mip_install___versions = {};
-for mip_install___i = 1:length(mip_install___package_index.packages)
-    if strcmpi(mip_install___package_index.packages{mip_install___i}.name, 'mip')
-        mip_install___versions = [
-            mip_install___versions ;
-            mip_install___package_index.packages{mip_install___i}
-        ]; %#ok<AGROW>
+    mip_install___versions = {};
+    for mip_install___i = 1:length(mip_install___package_index.packages)
+        if strcmpi(mip_install___package_index.packages{mip_install___i}.name, 'mip')
+            mip_install___versions = [
+                mip_install___versions ;
+                mip_install___package_index.packages{mip_install___i}
+            ]; %#ok<AGROW>
+        end
     end
-end
-if isempty(mip_install___versions)
-    clear mip_install___*
-    error('Failed to download mip. Installation aborted.');
-end
+    if isempty(mip_install___versions)
+        clear mip_install___*
+        error('Failed to download mip. Installation aborted.');
+    end
 
-% Select the best version of mip
-% Priority: highest numeric version > "main" > "unspecified" > alphabetically first
-mip_install___latest = [];
-mip_install___latest_numeric = '';
-for mip_install___i = 1:length(mip_install___versions)
-    mip_install___v = mip_install___versions{mip_install___i}.version;
-    mip_install___parts = str2double(strsplit(mip_install___v, '.'));
-    if ~any(isnan(mip_install___parts))
-        % Numeric version - compare to find highest
-        if isempty(mip_install___latest_numeric)
-            mip_install___latest = mip_install___versions{mip_install___i};
-            mip_install___latest_numeric = mip_install___v;
-        else
-            mip_install___v1 = mip_install___parts;
-            mip_install___v2 = str2double(strsplit(mip_install___latest_numeric, '.'));
-            mip_install___vmaxlen = max(length(mip_install___v1), length(mip_install___v2));
-            mip_install___v1(end+1:mip_install___vmaxlen) = 0;
-            mip_install___v2(end+1:mip_install___vmaxlen) = 0;
-            for mip_install___j = 1:mip_install___vmaxlen
-                if mip_install___v1(mip_install___j) > mip_install___v2(mip_install___j)
-                    mip_install___latest = mip_install___versions{mip_install___i};
-                    mip_install___latest_numeric = mip_install___v;
-                    break
-                elseif mip_install___v1(mip_install___j) < mip_install___v2(mip_install___j)
-                    break
+    % Select the best version of mip
+    % Priority: highest numeric version > "main" > "unspecified" > alphabetically first
+    mip_install___latest = [];
+    mip_install___latest_numeric = '';
+    for mip_install___i = 1:length(mip_install___versions)
+        mip_install___v = mip_install___versions{mip_install___i}.version;
+        mip_install___parts = str2double(strsplit(mip_install___v, '.'));
+        if ~any(isnan(mip_install___parts))
+            % Numeric version - compare to find highest
+            if isempty(mip_install___latest_numeric)
+                mip_install___latest = mip_install___versions{mip_install___i};
+                mip_install___latest_numeric = mip_install___v;
+            else
+                mip_install___v1 = mip_install___parts;
+                mip_install___v2 = str2double(strsplit(mip_install___latest_numeric, '.'));
+                mip_install___vmaxlen = max(length(mip_install___v1), length(mip_install___v2));
+                mip_install___v1(end+1:mip_install___vmaxlen) = 0;
+                mip_install___v2(end+1:mip_install___vmaxlen) = 0;
+                for mip_install___j = 1:mip_install___vmaxlen
+                    if mip_install___v1(mip_install___j) > mip_install___v2(mip_install___j)
+                        mip_install___latest = mip_install___versions{mip_install___i};
+                        mip_install___latest_numeric = mip_install___v;
+                        break
+                    elseif mip_install___v1(mip_install___j) < mip_install___v2(mip_install___j)
+                        break
+                    end
                 end
             end
         end
     end
-end
-% If no numeric version found, fall back to "main", then "unspecified", then first
-if isempty(mip_install___latest)
-    for mip_install___i = 1:length(mip_install___versions)
-        if strcmp(mip_install___versions{mip_install___i}.version, 'main')
-            mip_install___latest = mip_install___versions{mip_install___i};
-            break
+    % If no numeric version found, fall back to "main", then "unspecified", then first
+    if isempty(mip_install___latest)
+        for mip_install___i = 1:length(mip_install___versions)
+            if strcmp(mip_install___versions{mip_install___i}.version, 'main')
+                mip_install___latest = mip_install___versions{mip_install___i};
+                break
+            end
         end
     end
-end
-if isempty(mip_install___latest)
-    for mip_install___i = 1:length(mip_install___versions)
-        if strcmp(mip_install___versions{mip_install___i}.version, 'unspecified')
-            mip_install___latest = mip_install___versions{mip_install___i};
-            break
+    if isempty(mip_install___latest)
+        for mip_install___i = 1:length(mip_install___versions)
+            if strcmp(mip_install___versions{mip_install___i}.version, 'unspecified')
+                mip_install___latest = mip_install___versions{mip_install___i};
+                break
+            end
         end
     end
-end
-if isempty(mip_install___latest)
-    mip_install___latest = mip_install___versions{1};
-end
-
-% Download the .mhl for the latest version of mip from the package index
-mip_install___mhl = mip_install___latest.mhl_url;
-if isempty(mip_install___mhl)
-    clear mip_install___*
-    error('Failed to download mip. Installation aborted.');
-end
-
-fprintf('Installing mip version %s to ''%s''\n', mip_install___latest.version, mip_install___mipdirpretty);
-
-% Unzip the .mhl to <MIPDIR>/packages/gh/mip-org/core/mip
-mip_install___mippackagedir = fullfile(mip_install___mipdir, 'packages', 'gh', 'mip-org', 'core', 'mip');
-try
-    unzip(mip_install___mhl, mip_install___mippackagedir);
-catch
-    if isfolder(mip_install___mipdir)
-        rmdir(mip_install___mipdir, 's');
+    if isempty(mip_install___latest)
+        mip_install___latest = mip_install___versions{1};
     end
-    clear mip_install___*
-    error('Failed to download mip. Installation aborted.');
-end
+
+    % Download the .mhl for the latest version of mip from the package index
+    mip_install___mhl = mip_install___latest.mhl_url;
+    if isempty(mip_install___mhl)
+        clear mip_install___*
+        error('Failed to download mip. Installation aborted.');
+    end
+
+    fprintf('Installing mip version %s to ''%s''\n', mip_install___latest.version, mip_install___mipdirpretty);
+
+    % Unzip the .mhl to <MIPDIR>/packages/gh/mip-org/core/mip
+    try
+        unzip(mip_install___mhl, mip_install___mippackagedir);
+    catch
+        if isfolder(mip_install___mipdir)
+            rmdir(mip_install___mipdir, 's');
+        end
+        clear mip_install___*
+        error('Failed to download mip. Installation aborted.');
+    end
+
+end % if ~mip_install___adopt
 
 % Cache the user's current path
 mip_install___current_path = path;
-mip_install___mipsourcedir = fullfile(mip_install___mippackagedir, 'mip');
 
 % Add <MIPDIR>/packages/gh/mip-org/core/mip/mip to the path and save it for
 % future MATLAB sessions. savepath() returns a nonzero status (rather than
@@ -167,8 +187,13 @@ end
 path(mip_install___current_path);
 addpath(mip_install___mipsourcedir);
 
-fprintf('Installation successful!\n');
-fprintf('Type ''mip help'' to get started.\n');
+if mip_install___adopt
+    fprintf('mip is now on your MATLAB path.\n');
+    fprintf('To update mip, run ''mip update mip''.\n');
+else
+    fprintf('Installation successful!\n');
+    fprintf('Type ''mip help'' to get started.\n');
+end
 if ~mip_install___saved
     fprintf(['\nWarning: mip could not be saved to your MATLAB path for future sessions.\n' ...
              'To load mip automatically in future sessions, add this line to your\n' ...

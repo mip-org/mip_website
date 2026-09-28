@@ -168,6 +168,12 @@ end % if ~mip_install___adopt
 % Cache the user's current path
 mip_install___current_path = path;
 
+% Resetting the path below makes MATLAB rescan every folder on it, which
+% re-reports name conflicts that are not ours to fix. MATLAB Online, for
+% instance, ships a shadow of the built-in license function, and without this
+% the install prints "Function license has the same name as a MATLAB built-in".
+mip_install___warnstate = warning('off', 'MATLAB:dispatcher:nameConflict');
+
 % Add <MIPDIR>/packages/gh/mip-org/core/mip/mip to the path and save it for
 % future MATLAB sessions. savepath() returns a nonzero status (rather than
 % erroring) when it cannot write pathdef.m -- common on managed or shared
@@ -186,6 +192,7 @@ end
 % to the path for the current MATLAB session (whether or not the save worked)
 path(mip_install___current_path);
 addpath(mip_install___mipsourcedir);
+warning(mip_install___warnstate);
 
 if mip_install___adopt
     fprintf('mip is now on your MATLAB path.\n');

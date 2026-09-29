@@ -9,33 +9,28 @@ mip packages are distributed through **channels**, which are GitHub repos that b
 
 ## Setting up your channel
 
-A channel is just a GitHub repo with a `packages/` folder and a small set of GitHub Actions workflows. The workflows are thin wrappers that delegate the whole build pipeline to the shared engine in [mip-org/mip_channel_tools](https://github.com/mip-org/mip_channel_tools), so the easiest way to start is to copy an existing channel and swap in your own packages.
+A channel is just a GitHub repo with a `packages/` folder and a small set of GitHub Actions workflows. The workflows are thin wrappers that delegate the whole build pipeline to the shared engine in [mip-org/mip_channel_tools](https://github.com/mip-org/mip_channel_tools). The [mip-org/channel-template](https://github.com/mip-org/channel-template) repo contains these workflows and an empty `packages/` folder, so the easiest way to start is to create your channel from it.
 
-[mip-example](https://github.com/mip-org/mip-example) (a single package) and [mip-hello](https://github.com/mip-org/mip-hello) (a handful of packages showing different source layouts) are both kept current with the build system and make good starting points.
+1. On [mip-org/channel-template](https://github.com/mip-org/channel-template), click **Use this template → Create a new repository**. Name the new repo `mip-<channel_name>`, for example `mip-mylab`, and make it **public**. The name matters: when someone runs `mip install --channel youruser/mylab ...`, mip looks for a repo called `mip-mylab` under your account, so a repo without the `mip-` prefix cannot be used as a channel. It must be public because the build system runs MATLAB on GitHub's CI runners, which is only licensed for public repos, and users install anonymously from the repo's releases and GitHub Pages.
 
-1. Create an empty **public** GitHub repo named `mip-<channel_name>` — for example `mip-mylab`. It must be public: the build system runs MATLAB on GitHub's CI runners, which is only licensed for public repos, and users install anonymously from the repo's releases and GitHub Pages. The name matters too: when someone runs `mip install --channel youruser/mylab ...`, mip looks for a repo called `mip-mylab` under your account.
+2. In your new repo's **Settings → Pages**, set the source to **GitHub Actions**. Every build republishes the channel index to Pages, so do this before adding packages.
 
-2. Copy an example channel into it and point it at your repo:
+3. Clone the repo, add your packages (see [Adding a package](#adding-a-package) below), update `README.md` to describe your channel, then commit and push:
 
    ```bash
-   git clone https://github.com/mip-org/mip-hello mip-mylab
+   git clone https://github.com/youruser/mip-mylab
    cd mip-mylab
-   git remote set-url origin https://github.com/youruser/mip-mylab
-   ```
-
-3. Replace the example packages with your own (see [Adding a package](#adding-a-package) below), update `README.md` to describe your channel, then commit and push:
-
-   ```bash
-   rm -rf packages/*
    # ... add your packages under packages/<name>/<version>/ ...
    git add -A
-   git commit -m "Initial packages"
-   git push -u origin main
+   git commit -m "Add packages"
+   git push
    ```
 
-4. In your repo's **Settings → Pages**, set the source to **GitHub Actions**. That's it — your channel is ready.
+   Each package you add is built automatically on push. That's it; your channel is ready.
 
-Keep the `.github/workflows/`, `.gitattributes`, and `.gitignore` files from the example as they are; they wire your channel to the build engine. You don't write or maintain any build scripts yourself.
+For examples of the package layouts a channel can hold, see [mip-hello](https://github.com/mip-org/mip-hello) (a handful of packages showing different source layouts) and [mip-example](https://github.com/mip-org/mip-example) (a single package).
+
+Keep the `.github/workflows/`, `.gitattributes`, and `.gitignore` files from the template as they are; they wire your channel to the build engine. You don't write or maintain any build scripts yourself.
 
 ## Adding a package
 

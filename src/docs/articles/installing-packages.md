@@ -107,14 +107,25 @@ mip install youruser/mylab/my_package
 mip load youruser/mylab/my_package
 ```
 
+### Packages published from their own repository
+
+Some packages are published from their own GitHub repository rather than through a channel (see [Publishing from Your Repository](/docs/publishing-from-your-repository)). Install one by naming the repository:
+
+```matlab
+mip install youruser/my_package
+mip install https://github.com/youruser/my_package@1.0.0
+```
+
 ### Personal channels
 
-A **personal channel** is one whose name matches the account that hosts it — the repo `youruser/mip-youruser`. As a shorthand, a bare account name expands to this personal channel, so you can drop the repeated segment:
+A **personal channel** is one whose name matches the account that hosts it — the repo `youruser/mip-youruser`. On the `--channel` flag, a bare account name expands to this personal channel:
 
 ```matlab
 mip install --channel youruser my_package   % same as --channel youruser/youruser
-mip install youruser/my_package             % same as youruser/youruser/my_package
+mip install youruser/youruser/my_package
 ```
+
+The short form `youruser/my_package` refers to the repository `github.com/youruser/my_package`. If that repository does not publish a mip package, mip says so and installs `my_package` from the personal channel `youruser/youruser` instead.
 
 ### Subscribing to a channel
 

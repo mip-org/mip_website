@@ -71,6 +71,7 @@ Users install by naming the repository, in any of these forms:
 mip install youruser/my_package
 mip install youruser/my_package@1.0.0
 mip install youruser/my_package@main
+mip install github.com/youruser/my_package
 mip install https://github.com/youruser/my_package
 ```
 

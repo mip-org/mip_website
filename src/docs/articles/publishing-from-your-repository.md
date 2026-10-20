@@ -79,7 +79,7 @@ The package is installed as `youruser/my_package`, and can be loaded by its bare
 
 ## Dependencies
 
-Bare names in `dependencies` resolve to `mip-org/core` only. To depend on a package published from another repository, write it as `github.com/<owner>/<repo>`; for a package on another channel, use its fully qualified name:
+Bare names in `dependencies` resolve to `mip-org/core` only. To depend on a package published from another repository, write it as `<owner>/<repo>`; for a package on another channel, use its fully qualified name:
 
 ```yaml
 dependencies:

@@ -28,7 +28,7 @@ cd /path/to/my_package
 mip init -g
 ```
 
-This writes `.github/workflows/mip.yml` (and a `mip.yaml`, if there isn't one yet):
+This writes `.github/workflows/repo-build.yml` (and a `mip.yaml`, if there isn't one yet):
 
 ```yaml
 name: mip

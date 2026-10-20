@@ -8,6 +8,7 @@ import requestingAPackage from "./requesting-a-package.md?raw";
 import creatingAPackage from "./creating-a-package.md?raw";
 import buildingAMexPackage from "./building-a-mex-package.md?raw";
 // import buildingAWasmPackage from "./building-a-wasm-package.md?raw";
+import publishingFromYourRepository from "./publishing-from-your-repository.md?raw";
 import hostingAChannel from "./hosting-a-channel.md?raw";
 import forDevelopers from "./for-developers.md?raw";
 import environments from "./environments.md?raw";
@@ -20,6 +21,7 @@ export const docs: Doc[] = [
   parseFrontmatter(requestingAPackage),
   parseFrontmatter(creatingAPackage),
   parseFrontmatter(buildingAMexPackage),
+  parseFrontmatter(publishingFromYourRepository),
   parseFrontmatter(hostingAChannel),
   parseFrontmatter(forDevelopers),
   parseFrontmatter(environments),

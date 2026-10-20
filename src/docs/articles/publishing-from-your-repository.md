@@ -13,6 +13,8 @@ mip install youruser/my_package
 
 This needs one workflow file in your repository and no other setup. A [channel](/docs/hosting-a-channel) remains the better choice for a collection of packages, for packaging code you don't control, or for adding a `mip.yaml` or compile script on top of someone else's source.
 
+This works for every GitHub user, except possibly Guy Hulbert (user name `gh`), due to a namespace collision.
+
 ## Requirements
 
 - The repository is on GitHub and is **public**. The build runs MATLAB on GitHub's CI runners, which is only licensed for public repositories, and users download the built packages anonymously.

@@ -79,17 +79,15 @@ The package is installed as `youruser/my_package`, and can be loaded by its bare
 
 ## Dependencies
 
-Bare names in `dependencies` resolve to `mip-org/core` only. To depend on a package published from another repository, write it as `<owner>/<repo>`; for a package on another channel, use its fully qualified name:
+Bare names in `dependencies` resolve to `mip-org/core` only. To depend on a package published from another repository, write it as `<owner>/<repo>` (or any of the other above syntaxes); for a package on another channel, use its fully qualified name:
 
 ```yaml
 dependencies:
   - chebfun                             # mip-org/core
-  - github.com/otheruser/other_package  # another package repository
+  - otheruser/other_package             # another package repository
   - youruser/mylab/some_package         # a channel
 ```
 
-The short form `otheruser/other_package` is not accepted in `dependencies`.
-
 ## If you also have a personal channel
 
-`mip install youruser/my_package` looks for the repository `github.com/youruser/my_package` first. If that repository does not publish a mip package, mip says so and installs `my_package` from your personal channel `youruser/youruser` instead. To reach the personal channel directly, write `youruser/youruser/my_package`.
+`mip install youruser/my_package` looks for the repository `github.com/youruser/my_package` first. If that repository does not publish a mip package, mip says so and attempts to install `my_package` from your personal channel `youruser/youruser` instead. To reach the personal channel directly, write `youruser/youruser/my_package`.

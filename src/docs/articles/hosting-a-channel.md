@@ -7,7 +7,7 @@ order: 6
 
 mip packages are distributed through **channels**, which are GitHub repos that build packages and publish an index via GitHub Pages. The official channel is `mip-org/core`, but you can create your own to distribute packages for your lab, team, or project.
 
-To distribute a single package that lives in its own GitHub repository, you don't need a channel: see [Publishing from Your Repository](/docs/publishing-from-your-repository). A repository that publishes its own releases can still be included in a channel through an ordinary `source.yaml`; in that case, don't also add the publishing workflow to it, or each release is published twice.
+To distribute a single package that lives in its own GitHub repository, you don't need a channel: see [Publishing from Your Repository](/docs/publishing-from-your-repository). A repository that publishes its own releases can still be included in a channel through an ordinary `source.yaml`.
 
 ## Setting up your channel
 
